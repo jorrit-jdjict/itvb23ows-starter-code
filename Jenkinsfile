@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Voer de SonarQube-scanner uit
                 script {
-                    def scannerHome = tool 'sonarscanner'; // Controleer of 'sonarscanner' in Jenkins is geconfigureerd
+                    def scannerHome = tool 'sonarqubedocker'; // Controleer of 'sonarscanner' in Jenkins is geconfigureerd
                     withSonarQubeEnv() {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
