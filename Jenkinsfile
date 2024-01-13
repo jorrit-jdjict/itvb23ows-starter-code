@@ -2,12 +2,12 @@ pipeline {
     agent any
     
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         // Haal de nieuwste code op van de Git-repository (main branch)
-        //         checkout scm
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                // Haal de nieuwste code op van de Git-repository (main branch)
+                checkout scm
+            }
+        }
         
         stage('SonarQube Analysis') {
             environment {
