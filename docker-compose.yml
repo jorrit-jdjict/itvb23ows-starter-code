@@ -11,14 +11,46 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      - mysql
+      - db
+    networks:
+      - hive
 
-  mysql:
+  db:
+    build: ./database/
     image: mysql:latest
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - hive
+
+  jenkins:
+    build:
+      context: ./jenkins/
+    depends_on:
+      - sonarqube
+    environment:
+      JENKINS_ADMIN_ID: "admin"
+      JENKINS_ADMIN_PASSWORD: "admin"
+      JENKINS_PORT: 8080
+      SONARQUBE_PORT: 9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - hive
+    ports:
+      - "8080:8080"
+
+  sonarqube:
+    build: ./sonarqube/
+    networks:
+      - hive
+    ports:
+      - "9000:9000"
 
 volumes:
   mysql_data:
+
+networks:
+  hive:
