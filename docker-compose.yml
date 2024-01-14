@@ -1,22 +1,21 @@
 version: "3.8"
 
 services:
-  php-apache:
-    container_name: hive
-    build:
-      context: .
-      dockerfile: Dockerfile
+  hive:
+    build: ./hive/
     ports:
       - "8000:80"
-    volumes:
-      - .:/var/www/html
+    command: php -S 0.0.0.0:80
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     depends_on:
       - db
     networks:
       - hive
 
   db:
-    build: ./database/
+    build: ./db/
     image: mysql:latest
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

@@ -1,6 +1,9 @@
 # Use the official PHP 8.1 image as the base image
 FROM php:8.1-apache
 
+ARG MYSQL_DATABASE
+ARG MYSQL_ROOT_PASSWORD
+
 # Install mysqli extension
 RUN docker-php-ext-install mysqli
 
@@ -8,7 +11,7 @@ RUN docker-php-ext-install mysqli
 WORKDIR /var/www/html
 
 # Copy the PHP application into the working directory
-COPY . .
+COPY ./app/ .
 
 # Expose the port the app runs on
 EXPOSE 80
