@@ -2,7 +2,7 @@
 
 session_start();
 
-include_once 'app/util.php';
+include_once './app/util.php';
 
 if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
