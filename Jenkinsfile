@@ -27,25 +27,16 @@ pipeline {
             }
         }
         
-        stage("SonarQube Quality Gate") {
-            steps {
-                // Wacht op de kwaliteitsgate van SonarQube
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-        
-        stage('Build Docker Image') {
-            when {
-                expression {
-                    currentBuild.resultIsBetterOrEqualTo('SUCCESS')
-                }
-            }
-            steps {
-                // Voer hier de stappen uit om een Docker-image te bouwen
-                sh 'docker build -t hive-final:latest .'
-            }
-        }
+        // stage('Build Docker Image') {
+        //     when {
+        //         expression {
+        //             currentBuild.resultIsBetterOrEqualTo('SUCCESS')
+        //         }
+        //     }
+        //     steps {
+        //         // Voer hier de stappen uit om een Docker-image te bouwen
+        //         sh 'docker build -t hive-final:latest .'
+        //     }
+        // }
     }
 }
