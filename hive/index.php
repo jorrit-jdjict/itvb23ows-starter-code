@@ -2,28 +2,35 @@
 
 session_start();
 
-include_once 'util.php';
+include_once 'app/util.php';
 
 if (!isset($_SESSION['board'])) {
-    header('Location: restart.php');
+    header('Location: app/restart.php');
     exit(0);
 }
+
 $board = $_SESSION['board'];
 $player = $_SESSION['player'];
 $hand = $_SESSION['hand'];
 
 $to = [];
-foreach ($GLOBALS['OFFSETS'] as $pq) {
+
+foreach ($util->getOffset() as $pq) {
     foreach (array_keys($board) as $pos) {
         $pq2 = explode(',', $pos);
         $to[] = ($pq[0] + $pq2[0]) . ',' . ($pq[1] + $pq2[1]);
     }
 }
+
 $to = array_unique($to);
-if (!count($to)) $to[] = '0,0';
+if (!count($to)) {
+    $to[] = '0,0';
+}
+
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en-GB" xml:lang="en-GB">
 
 <head>
     <title>Hive</title>
@@ -83,8 +90,12 @@ if (!count($to)) $to[] = '0,0';
         $min_q = 1000;
         foreach ($board as $pos => $tile) {
             $pq = explode(',', $pos);
-            if ($pq[0] < $min_p) $min_p = $pq[0];
-            if ($pq[1] < $min_q) $min_q = $pq[1];
+            if ($pq[0] < $min_p) {
+                $min_p = $pq[0];
+            }
+            if ($pq[1] < $min_q) {
+                $min_q = $pq[1];
+            }
         }
         foreach (array_filter($board) as $pos => $tile) {
             $pq = explode(',', $pos);
@@ -93,7 +104,9 @@ if (!count($to)) $to[] = '0,0';
             $h = count($tile);
             echo '<div class="tile player';
             echo $tile[$h - 1][0];
-            if ($h > 1) echo ' stacked';
+            if ($h > 1) {
+                echo ' stacked';
+            }
             echo '" style="left: ';
             echo ($pq[0] - $min_p) * 4 + ($pq[1] - $min_q) * 2;
             echo 'em; top: ';
@@ -125,8 +138,11 @@ if (!count($to)) $to[] = '0,0';
         ?>
     </div>
     <div class="turn">
-        Turn: <?php if ($player == 0) echo "White";
-                else echo "Black"; ?>
+        Turn: <?php if ($player == 0) {
+                    echo "White";
+                } else {
+                    echo "Black";
+                } ?>
     </div>
     <form method="post" action="play.php">
         <select name="piece">
@@ -168,11 +184,13 @@ if (!count($to)) $to[] = '0,0';
     <form method="post" action="restart.php">
         <input type="submit" value="Restart">
     </form>
-    <strong><?php if (isset($_SESSION['error'])) echo ($_SESSION['error']);
+    <strong><?php if (isset($_SESSION['error'])) {
+                echo $_SESSION['error'];
+            };
             unset($_SESSION['error']); ?></strong>
     <ol>
         <?php
-        $db = include 'database.php';
+        $db = include_once 'database.php';
         $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']);
         $stmt->execute();
         $result = $stmt->get_result();
