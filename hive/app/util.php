@@ -1,6 +1,6 @@
 <?php
 
-$GLOBAL['offsets'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
+$GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
 function isNeighbour($a, $b)
 {
@@ -57,7 +57,7 @@ function slide($board, $from, $to)
     $b = explode(',', $to);
     $common = [];
 
-    foreach ($GLOBALS['offsets'] as $pq) {
+    foreach ($GLOBALS['OFFSETS'] as $pq) {
         $p = $b[0] + $pq[0];
         $q = $b[1] + $pq[1];
         if (isNeighbour($from, $p . "," . $q)) {
