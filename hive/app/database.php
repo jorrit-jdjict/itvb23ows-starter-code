@@ -13,4 +13,9 @@ function setState($state)
     $_SESSION['player'] = $c;
 }
 
-return new mysqli('mysql', 'root', 'root', 'hive');
+$db = new mysqli('db', 'root', $_ENV['MYSQL_ROOT_PASSWORD'], 'hive');
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+
+return $db;

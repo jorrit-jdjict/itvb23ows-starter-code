@@ -11,7 +11,7 @@ RUN docker-php-ext-install mysqli
 WORKDIR /var/www/html
 
 # Copy the PHP application into the working directory
-COPY ./app/ .
+COPY . .
 
 # Expose the port the app runs on
 EXPOSE 80

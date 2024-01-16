@@ -3,6 +3,10 @@
 session_start();
 
 include_once './app/util.php';
+require_once './vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
@@ -144,7 +148,7 @@ if (!count($to)) {
                     echo "Black";
                 } ?>
     </div>
-    <form method="post" action="play.php">
+    <form method="post" action="app/play.php">
         <select name="piece">
             <?php
             foreach ($hand[$player] as $tile => $ct) {
@@ -161,7 +165,7 @@ if (!count($to)) {
         </select>
         <input type="submit" value="Play">
     </form>
-    <form method="post" action="move.php">
+    <form method="post" action="app/move.php">
         <select name="from">
             <?php
             foreach (array_keys($board) as $pos) {
@@ -178,10 +182,10 @@ if (!count($to)) {
         </select>
         <input type="submit" value="Move">
     </form>
-    <form method="post" action="pass.php">
+    <form method="post" action="app/pass.php">
         <input type="submit" value="Pass">
     </form>
-    <form method="post" action="restart.php">
+    <form method="post" action="app/restart.php">
         <input type="submit" value="Restart">
     </form>
     <strong><?php if (isset($_SESSION['error'])) {
@@ -190,7 +194,7 @@ if (!count($to)) {
             unset($_SESSION['error']); ?></strong>
     <ol>
         <?php
-        $db = include_once 'database.php';
+        $db = include_once 'app/database.php';
         $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -199,7 +203,7 @@ if (!count($to)) {
         }
         ?>
     </ol>
-    <form method="post" action="undo.php">
+    <form method="post" action="app/undo.php">
         <input type="submit" value="Undo">
     </form>
 </body>

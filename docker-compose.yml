@@ -19,8 +19,6 @@ services:
   db:
     build: ./db/
     image: mysql:latest
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
