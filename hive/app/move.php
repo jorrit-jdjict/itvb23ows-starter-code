@@ -1,16 +1,16 @@
 <?php
 
-session_start();
+session_start(); // Start a session to store game data.
 
 include_once './util.php';
 
-$from = $_POST['from'];
-$to = $_POST['to'];
+$from = $_POST['from']; // Get the 'from' position from the submitted form.
+$to = $_POST['to']; // Get the 'to' position from the submitted form.
 
-$player = $_SESSION['player'];
-$board = $_SESSION['board'];
-$hand = $_SESSION['hand'][$player];
-unset($_SESSION['error']);
+$player = $_SESSION['player']; // Get the current player from the session.
+$board = $_SESSION['board']; // Get the game board from the session.
+$hand = $_SESSION['hand'][$player]; // Get the player's hand from the session.
+unset($_SESSION['error']); // Clear any previous error messages from the session.
 
 if (!isset($board[$from])) {
     $_SESSION['error'] = 'Board position is empty';
@@ -19,12 +19,16 @@ if (!isset($board[$from])) {
 } elseif ($hand['Q']) {
     $_SESSION['error'] = "Queen bee is not played";
 } else {
-    $tile = array_pop($board[$from]);
+    $tile = array_pop($board[$from]); // Remove a tile from the 'from' position.
+
+    // Check if the move would split the hive.
     if (!hasNeighBour($to, $board)) {
         $_SESSION['error'] = "Move would split hive";
     } else {
         $all = array_keys($board);
         $queue = [array_shift($all)];
+
+        // Check if the move would split the hive by iterating through neighboring positions.
         while ($queue) {
             $next = explode(',', array_shift($queue));
             foreach ($GLOBALS['OFFSETS'] as $pq) {
@@ -37,6 +41,8 @@ if (!isset($board[$from])) {
                 }
             }
         }
+
+        // If there are remaining positions in 'all', the move would split the hive.
         if ($all) {
             $_SESSION['error'] = "Move would split hive";
         } else {
@@ -51,27 +57,31 @@ if (!isset($board[$from])) {
             }
         }
     }
+
+    // Handle error cases by restoring the tile to its original position.
     if (isset($_SESSION['error'])) {
         if (isset($board[$from])) {
             array_push($board[$from], $tile);
         } else {
             $board[$from] = [$tile];
         }
-    } else {
+    } else { // If no errors, proceed with the move.
         if (isset($board[$to])) {
             array_push($board[$to], $tile);
         } else {
             $board[$to] = [$tile];
         }
-        $_SESSION['player'] = 1 - $_SESSION['player'];
-        $db = include_once './database.php';
+        $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
+        $db = include_once './database.php'; // Include the database connection.
         $stmt = $db->prepare('insert into moves (game_id, type, move_from, move_to, previous_id, state) 
         values (?, "move", ?, ?, ?, ?)');
+
+        // Bind parameters for the database query and execute the query.
         $stmt->bind_param('issis', $_SESSION['game_id'], $from, $to, $_SESSION['last_move'], getState());
         $stmt->execute();
-        $_SESSION['last_move'] = $db->insert_id;
+        $_SESSION['last_move'] = $db->insert_id; // Store the last move ID in the session.
     }
-    $_SESSION['board'] = $board;
+    $_SESSION['board'] = $board; // Update the game board in the session.
 }
 
-header('Location: ../index.php');
+header('Location: ../index.php'); // Redirect to the main game page.

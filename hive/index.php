@@ -1,21 +1,25 @@
 <?php
 
-session_start();
+session_start(); // Data store for session
 
 include_once './app/util.php';
 require_once './vendor/autoload.php';
 
+// When board is not set in session, restart the game
 if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
     exit(0);
 }
 
+// Sessions for board, player and hand, acting as a storage.
 $board = $_SESSION['board'];
 $player = $_SESSION['player'];
 $hand = $_SESSION['hand'];
 
+// All possible move destinations
 $to = [];
 
+// Generate possible move destinations based on predefined offsets.
 foreach ($GLOBALS['OFFSETS'] as $pq) {
     foreach (array_keys($board) as $pos) {
         $pq2 = explode(',', $pos);
@@ -23,9 +27,10 @@ foreach ($GLOBALS['OFFSETS'] as $pq) {
     }
 }
 
+// Remove duplicate move destinations.
 $to = array_unique($to);
 if (!count($to)) {
-    $to[] = '0,0';
+    $to[] = '0,0'; // If no move destinations are available, set a default.
 }
 
 ?>
@@ -89,6 +94,9 @@ if (!count($to)) {
         <?php
         $min_p = 1000;
         $min_q = 1000;
+
+        // What does P and Q mean?
+        // Find the minimum p and q values on the game board. 
         foreach ($board as $pos => $tile) {
             $pq = explode(',', $pos);
             if ($pq[0] < $min_p) {
@@ -98,11 +106,14 @@ if (!count($to)) {
                 $min_q = $pq[1];
             }
         }
+
+        // Generate HTML code for displaying the game board.
         foreach (array_filter($board) as $pos => $tile) {
             $pq = explode(',', $pos);
             $pq[0];
             $pq[1];
             $h = count($tile);
+            // Generate HTML for each tile on the board.
             echo '<div class="tile player';
             echo $tile[$h - 1][0];
             if ($h > 1) {
@@ -193,10 +204,13 @@ if (!count($to)) {
             unset($_SESSION['error']); ?></strong>
     <ol>
         <?php
+        // DB connection
         $db = include_once 'app/database.php';
-        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']);
+        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']); // Prepare a database query.
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->get_result(); // Get the query result.
+
+        // Display the list of moves from the database.
         while ($row = $result->fetch_array()) {
             echo '<li>' . $row[2] . ' ' . $row[3] . ' ' . $row[4] . '</li>';
         }

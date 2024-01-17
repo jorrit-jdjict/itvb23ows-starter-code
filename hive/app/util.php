@@ -1,7 +1,8 @@
 <?php
-
+// Define global array 'OFFSETS' representing possible neighboring positions.
 $GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
+// Function to check if two positions are neighbors on the game board.
 function isNeighbour($a, $b)
 {
     $a = explode(',', $a);
@@ -14,6 +15,7 @@ function isNeighbour($a, $b)
     );
 }
 
+// Function to check if a position on the board has a neighboring position.
 function hasNeighBour($a, $board)
 {
     foreach (array_keys($board) as $b) {
@@ -23,6 +25,7 @@ function hasNeighBour($a, $board)
     }
 }
 
+// Function to check if neighboring tiles are of the same color.
 function neighboursAreSameColor($player, $a, $board)
 {
     $sameColor = true;
@@ -40,14 +43,15 @@ function neighboursAreSameColor($player, $a, $board)
     return $sameColor;
 }
 
+// Function to calculate the length (number of tiles) in a position on the board.
 function len($tile)
 {
     return $tile ? count($tile) : 0;
 }
 
+// Function to check if a tile can slide from one position to another on the board.
 function slide($board, $from, $to)
 {
-
     $slide = true;
 
     if (!hasNeighBour($to, $board) || !isNeighbour($from, $to)) {
@@ -57,6 +61,7 @@ function slide($board, $from, $to)
     $b = explode(',', $to);
     $common = [];
 
+    // Check for common neighboring positions between 'from' and 'to'.
     foreach ($GLOBALS['OFFSETS'] as $pq) {
         $p = $b[0] + $pq[0];
         $q = $b[1] + $pq[1];
@@ -65,6 +70,7 @@ function slide($board, $from, $to)
         }
     }
 
+    // Check if the slide is possible based on neighboring tiles.
     if ((!isset($board[$common[0]]) || !$board[$common[0]]) &&
         (!isset($board[$common[1]]) || !$board[$common[1]]) &&
         (!isset($board[$from]) || !$board[$from]) &&
