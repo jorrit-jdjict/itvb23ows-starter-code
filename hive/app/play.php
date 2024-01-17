@@ -2,10 +2,9 @@
 session_start(); // Start a session to manage game data.
 
 // Include the GameBoard class
-require_once './util.php';
-
-// Create an instance of the GameBoard class
+require_once 'util.php';
 $gameBoard = new GameBoard();
+$gameBoard->setPlayer(0);
 
 // Include the GameDatabase class
 require_once './database.php';
@@ -25,7 +24,7 @@ if (!$hand[$piece]) {
     $_SESSION['error'] = 'Board position is not empty'; // Check if the destination position is empty.
 } elseif (count($board) && !$gameBoard->hasNeighBour($board, $to)) {
     $_SESSION['error'] = "board position has no neighbor"; // Check if the destination position has no neighboring tiles.
-} elseif (array_sum($hand) < 11 && !$gameBoard->neighboursAreSameColor($to)) {
+} elseif (array_sum($hand) < 11 && !$gameBoard->neighboursAreSameColor($player, $to, $board)) {
     $_SESSION['error'] = "Board position has opposing neighbor"; // Check if there are opposing color neighboring tiles.
 } elseif ($piece != 'Q' && array_sum($hand) <= 8 && $hand['Q']) {
     $_SESSION['error'] = 'Must play queen bee'; // Check if the player must play the queen bee tile.

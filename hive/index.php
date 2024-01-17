@@ -4,15 +4,11 @@ session_start(); // Data store for session
 
 // Include the GameDatabase class
 require_once './app/database.php';
-$gameDatabase = GameDatabase::getInstance();
-$db = $gameDatabase->getDatabaseConnection();
-
 
 // Include the GameBoard class
 require_once './app/util.php';
 $gameBoard = new GameBoard();
 $gameBoard->setPlayer(0);
-// $_SESSION['gameBoard'] = $gameBoard;
 
 require_once './vendor/autoload.php';
 
@@ -21,6 +17,14 @@ if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
     exit(0);
 }
+
+// Create an instance of the GameDatabase class
+$gameDatabase = GameDatabase::getInstance();
+
+// Get the database connection
+$db = $gameDatabase->getDatabaseConnection();
+
+
 
 
 
@@ -33,7 +37,6 @@ $hand = $_SESSION['hand'];
 $to = [];
 
 // Generate possible move destinations based on predefined offsets.
-
 foreach ($gameBoard->getOffsets() as $pq) {
     foreach (array_keys($board) as $pos) {
         $pq2 = explode(',', $pos);

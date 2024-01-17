@@ -11,13 +11,8 @@ $db = $gameDatabase->getDatabaseConnection();
 $stmt = $db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) 
 VALUES (?, "pass", null, null, ?, ?)');
 
-// Create variables for the parameters
-$gameId = $_SESSION['game_id'];
-$lastMove = $_SESSION['last_move'];
-$serializedGameState = $gameDatabase->serializeGameState();
-
 // Bind parameters for the database query.
-$stmt->bind_param('iis', $gameId, $lastMove, $serializedGameState);
+$stmt->bind_param('iis', $_SESSION['game_id'], $_SESSION['last_move'], $gameDatabase->serializeGameState());
 
 // Execute the database query to record the "pass" move.
 $stmt->execute();
