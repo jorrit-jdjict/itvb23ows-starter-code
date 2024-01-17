@@ -18,9 +18,10 @@ if (!$hand[$piece]) {
     $_SESSION['error'] = "board position has no neighbour"; // Check if the destination position has no neighboring tiles.
 } elseif (array_sum($hand) < 11 && !neighboursAreSameColor($player, $to, $board)) {
     $_SESSION['error'] = "Board position has opposing neighbour"; // Check if there are opposing color neighboring tiles.
-} elseif (array_sum($hand) <= 8 && $hand['Q']) {
+} elseif ($piece != 'Q' && array_sum($hand) <= 8 && $hand['Q']) {
     $_SESSION['error'] = 'Must play queen bee'; // Check if the player must play the queen bee tile.
 } else {
+    $_SESSION['error'] == null;
     // Place the selected piece on the board and update the player's hand.
     $_SESSION['board'][$to] = [[$_SESSION['player'], $piece]];
     $_SESSION['hand'][$player][$piece]--;

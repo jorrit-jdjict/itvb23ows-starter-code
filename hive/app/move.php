@@ -14,7 +14,10 @@ unset($_SESSION['error']); // Clear any previous error messages from the session
 
 if (!isset($board[$from])) {
     $_SESSION['error'] = 'Board position is empty';
-} elseif ($board[$from][count($board[$from]) - 1][0] != $player) {
+} elseif (
+    isset($board[$from][count($board[$from]) - 1]) &&
+    $board[$from][count($board[$from]) - 1][0] != $player
+) {
     $_SESSION['error'] = "Tile is not owned by player";
 } elseif ($hand['Q']) {
     $_SESSION['error'] = "Queen bee is not played";
@@ -53,6 +56,8 @@ if (!isset($board[$from])) {
             } elseif ($tile[1] == "Q" || $tile[1] == "B") {
                 if (!slide($board, $from, $to)) {
                     $_SESSION['error'] = 'Tile must slide';
+                } else {
+                    $_SESSION['error'] = null;
                 }
             }
         }
