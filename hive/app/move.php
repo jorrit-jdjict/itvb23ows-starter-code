@@ -74,4 +74,4 @@ if (!isset($board[$from])) {
     $_SESSION['board'] = $board;
 }
 
-header('Location: index.php');
+header('Location: ../index.php');
