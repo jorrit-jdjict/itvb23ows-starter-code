@@ -4,7 +4,6 @@ class GameBoard
     private $board;
     private $player;
 
-    // All possible directions to move in relative to a position
     private array $offsets =
     [
         [0, 1],
@@ -15,14 +14,14 @@ class GameBoard
         [1, -1]
     ];
 
-    public function getOffsets(): array
-    {
-        return $this->offsets;
-    }
-
     public function __construct()
     {
         $this->initializeBoard();
+    }
+
+    public function getOffsets(): array
+    {
+        return $this->offsets;
     }
 
     private function initializeBoard()
@@ -38,7 +37,7 @@ class GameBoard
 
     public function getBoard()
     {
-        return $this->board;
+        return isset($_SESSION['board']) ? $_SESSION['board'] : null;
     }
 
     public function isNeighbour($a, $b)
@@ -53,21 +52,13 @@ class GameBoard
         );
     }
 
-    function hasNeighbour($board, $a)
+    function hasNeighbour($board, $a): bool
     {
-        list($x, $y) = explode(',', $a);
-
-        foreach ($this->offsets as [$dx, $dy]) {
-            $nx = $x + $dx;
-            $ny = $y + $dy;
-            $neighbourPosition = "$nx,$ny";
-
-            if (isset($board[$neighbourPosition]) && $this->isNeighbour($a, $neighbourPosition)) {
+        foreach (array_keys($board) as $b) {
+            if ($this->isNeighbour($a, $b)) {
                 return true;
             }
         }
-
-        return false;
     }
 
     public function neighboursAreSameColor($a)
@@ -75,9 +66,7 @@ class GameBoard
         $sameColor = true;
 
         foreach ($this->board as $b => $st) {
-            if (!$st) {
-                continue;
-            }
+            if (!$st) continue;
             $c = $st[count($st) - 1][0];
             if ($c != $this->player && $this->isNeighbour($a, $b)) {
                 $sameColor = false;

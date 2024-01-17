@@ -4,8 +4,7 @@ session_start(); // Start a session to store game data.
 
 // Include the GameBoard class
 require_once 'util.php';
-$gameBoard = new GameBoard();
-$gameBoard->setPlayer(0);
+$gameBoard = $_SESSION['board'];
 
 // Include the GameDatabase class
 require_once './database.php';
@@ -34,7 +33,7 @@ if (!isset($board[$from])) {
     $tile = array_pop($board[$from]); // Remove a tile from the 'from' position.
 
     // Check if the move would split the hive.
-    if (!$gameBoard->hasNeighBour($to, $board)) {
+    if (!$gameBoard->hasNeighBour($board, $to)) {
         $_SESSION['error'] = "Move would split hive";
     } else {
         $all = array_keys($board);
