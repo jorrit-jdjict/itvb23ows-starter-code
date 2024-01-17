@@ -3,6 +3,11 @@
 session_start(); // Start a session to store game data.
 
 include_once './util.php';
+// Include the GameDatabase class
+require_once './database.php';
+
+// Initialize the GameDatabase instance
+$gameDatabase = GameDatabase::getInstance();
 
 $from = $_POST['from']; // Get the 'from' position from the submitted form.
 $to = $_POST['to']; // Get the 'to' position from the submitted form.
@@ -11,6 +16,10 @@ $player = $_SESSION['player']; // Get the current player from the session.
 $board = $_SESSION['board']; // Get the game board from the session.
 $hand = $_SESSION['hand'][$player]; // Get the player's hand from the session.
 unset($_SESSION['error']); // Clear any previous error messages from the session.
+
+
+// Get the database connection
+$db = $gameDatabase->getDatabaseConnection();
 
 if (!isset($board[$from])) {
     $_SESSION['error'] = 'Board position is empty';
@@ -82,7 +91,7 @@ if (!isset($board[$from])) {
         values (?, "move", ?, ?, ?, ?)');
 
         // Bind parameters for the database query and execute the query.
-        $stmt->bind_param('issis', $_SESSION['game_id'], $from, $to, $_SESSION['last_move'], getState());
+        $stmt->bind_param('issis', $_SESSION['game_id'], $from, $to, $_SESSION['last_move'], $gameDatabase->serializeGameState());
         $stmt->execute();
         $_SESSION['last_move'] = $db->insert_id; // Store the last move ID in the session.
     }

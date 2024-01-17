@@ -2,14 +2,22 @@
 
 session_start(); // Start a session to store game data.
 
-$db = include_once './database.php'; // Include the database connection.
+// Include the GameDatabase class
+// Include the GameDatabase class
+require_once './database.php';
+
+// Initialize the GameDatabase instance
+$gameDatabase = GameDatabase::getInstance();
+
+// Get the database connection
+$db = $gameDatabase->getDatabaseConnection();
 
 // Prepare a database query to record a "pass" move in the moves table.
-$stmt = $db->prepare('insert into moves (game_id, type, move_from, move_to, previous_id, state) 
-values (?, "pass", null, null, ?, ?)');
+$stmt = $db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) 
+VALUES (?, "pass", null, null, ?, ?)');
 
 // Bind parameters for the database query.
-$stmt->bind_param('iis', $_SESSION['game_id'], $_SESSION['last_move'], getState());
+$stmt->bind_param('iis', $_SESSION['game_id'], $_SESSION['last_move'], $gameDatabase->serializeGameState());
 
 // Execute the database query to record the "pass" move.
 $stmt->execute();
