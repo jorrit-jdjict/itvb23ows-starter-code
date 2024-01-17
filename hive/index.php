@@ -5,9 +5,6 @@ session_start();
 include_once './app/util.php';
 require_once './vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
     exit(0);

@@ -13,7 +13,7 @@ function setState($state)
     $_SESSION['player'] = $c;
 }
 
-$db = new mysqli('db', 'root', $_ENV['MYSQL_ROOT_PASSWORD'], 'hive');
+$db = new mysqli('db', 'root', $_ENV['MYSQL_ROOT_PASSWORD'], $_ENV['MYSQL_DATABASE']);
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 }
