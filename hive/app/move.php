@@ -2,7 +2,10 @@
 
 session_start(); // Start a session to store game data.
 
-include_once './util.php';
+// Include the GameBoard class
+require_once 'util.php';
+$gameBoard = new GameBoard();
+$gameBoard->setPlayer(0);
 
 // Include the GameDatabase class
 require_once './database.php';
@@ -31,7 +34,7 @@ if (!isset($board[$from])) {
     $tile = array_pop($board[$from]); // Remove a tile from the 'from' position.
 
     // Check if the move would split the hive.
-    if (!hasNeighBour($to, $board)) {
+    if (!$gameBoard->hasNeighBour($to, $board)) {
         $_SESSION['error'] = "Move would split hive";
     } else {
         $all = array_keys($board);
@@ -40,7 +43,7 @@ if (!isset($board[$from])) {
         // Check if the move would split the hive by iterating through neighboring positions.
         while ($queue) {
             $next = explode(',', array_shift($queue));
-            foreach ($GLOBALS['OFFSETS'] as $pq) {
+            foreach ($gameBoard->getOffsets() as $pq) {
                 list($p, $q) = $pq;
                 $p += $next[0];
                 $q += $next[1];
@@ -60,7 +63,7 @@ if (!isset($board[$from])) {
             } elseif (isset($board[$to]) && $tile[1] != "B") {
                 $_SESSION['error'] = 'Tile not empty';
             } elseif ($tile[1] == "Q" || $tile[1] == "B") {
-                if (!slide($board, $from, $to)) {
+                if (!$gameBoard->slide($board, $from, $to)) {
                     $_SESSION['error'] = 'Tile must slide';
                 } else {
                     $_SESSION['error'] = null;

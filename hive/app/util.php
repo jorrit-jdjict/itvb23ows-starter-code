@@ -1,92 +1,134 @@
 <?php
-// Define global array 'OFFSETS' representing possible neighboring positions.
-$GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
-
-// Function to check if two positions are neighbors on the game board.
-function isNeighbour($a, $b)
+class GameBoard
 {
-    $a = explode(',', $a);
-    $b = explode(',', $b);
+    private $board;
+    private $player;
 
-    return (
-        ($a[0] == $b[0] && abs($a[1] - $b[1]) == 1) ||
-        ($a[1] == $b[1] && abs($a[0] - $b[0]) == 1) ||
-        ($a[0] + $a[1] == $b[0] + $b[1])
-    );
-}
+    // All possible directions to move in relative to a position
+    private array $offsets =
+    [
+        [0, 1],
+        [0, -1],
+        [1, 0],
+        [-1, 0],
+        [-1, 1],
+        [1, -1]
+    ];
 
-// Function to check if a position on the board has a neighboring position.
-function hasNeighBour($a, $board)
-{
-    foreach (array_keys($board) as $b) {
-        if (isNeighbour($a, $b)) {
-            return true;
+    public function getOffsets(): array
+    {
+        return $this->offsets;
+    }
+
+    public function __construct()
+    {
+        $this->initializeBoard();
+    }
+
+    private function initializeBoard()
+    {
+        $this->board = [];
+        $this->player = 0;
+    }
+
+    public function setPlayer($player)
+    {
+        $this->player = $player;
+    }
+
+    public function getBoard()
+    {
+        return $this->board;
+    }
+
+    public function isNeighbour($a, $b)
+    {
+        $a = explode(',', $a);
+        $b = explode(',', $b);
+
+        return (
+            ($a[0] == $b[0] && abs($a[1] - $b[1]) == 1) ||
+            ($a[1] == $b[1] && abs($a[0] - $b[0]) == 1) ||
+            ($a[0] + $a[1] == $b[0] + $b[1])
+        );
+    }
+
+    function hasNeighbour($board, $a)
+    {
+        list($x, $y) = explode(',', $a);
+
+        foreach ($this->offsets as [$dx, $dy]) {
+            $nx = $x + $dx;
+            $ny = $y + $dy;
+            $neighbourPosition = "$nx,$ny";
+
+            if (isset($board[$neighbourPosition]) && $this->isNeighbour($a, $neighbourPosition)) {
+                return true;
+            }
         }
+
+        return false;
     }
-}
 
-// Function to check if neighboring tiles are of the same color.
-function neighboursAreSameColor($player, $a, $board)
-{
-    $sameColor = true;
+    public function neighboursAreSameColor($a)
+    {
+        $sameColor = true;
 
-    foreach ($board as $b => $st) {
-        if (!$st) {
-            continue;
+        foreach ($this->board as $b => $st) {
+            if (!$st) {
+                continue;
+            }
+            $c = $st[count($st) - 1][0];
+            if ($c != $this->player && $this->isNeighbour($a, $b)) {
+                $sameColor = false;
+            }
         }
-        $c = $st[count($st) - 1][0];
-        if ($c != $player && isNeighbour($a, $b)) {
-            $sameColor = false;
+
+        return $sameColor;
+    }
+
+    public function len($tile)
+    {
+        return $tile ? count($tile) : 0;
+    }
+
+    public function slide($from, $to)
+    {
+        $slide = true;
+        $board = $this->getBoard();
+
+        if (!$this->hasNeighbour($board, $to) || !$this->isNeighbour($from, $to)) {
+            $slide = false;
         }
-    }
 
-    return $sameColor;
-}
+        $b = explode(',', $to);
+        $common = [];
 
-// Function to calculate the length (number of tiles) in a position on the board.
-function len($tile)
-{
-    return $tile ? count($tile) : 0;
-}
-
-// Function to check if a tile can slide from one position to another on the board.
-function slide($board, $from, $to)
-{
-    $slide = true;
-
-    if (!hasNeighBour($to, $board) || !isNeighbour($from, $to)) {
-        $slide = false;
-    }
-
-    $b = explode(',', $to);
-    $common = [];
-
-    // Check for common neighboring positions between 'from' and 'to'.
-    foreach ($GLOBALS['OFFSETS'] as $pq) {
-        $p = $b[0] + $pq[0];
-        $q = $b[1] + $pq[1];
-        if (isNeighbour($from, $p . "," . $q)) {
-            $common[] = $p . "," . $q;
+        foreach ($this->offsets as $pq) {
+            $p = $b[0] + $pq[0];
+            $q = $b[1] + $pq[1];
+            if ($this->isNeighbour($from, $p . "," . $q)) {
+                $common[] = $p . "," . $q;
+            }
         }
-    }
 
-    // Check if the slide is possible based on neighboring tiles.
-    if ((!isset($board[$common[0]]) || !$board[$common[0]]) &&
-        (!isset($board[$common[1]]) || !$board[$common[1]]) &&
-        (!isset($board[$from]) || !$board[$from]) &&
-        (!isset($board[$to]) || !$board[$to])
-    ) {
-        $slide = false;
-    } else {
-        $slide =
-            min(
-                len($board[$common[0]]),
-                len($board[$common[1]])
-            ) <= max(
-                len($board[$from]),
-                len($board[$to])
-            );
-    }
+        if ((!isset($this->board[$common[0]]) || !$this->board[$common[0]]) &&
+            (!isset($this->board[$common[1]]) || !$this->board[$common[1]]) &&
+            (!isset($this->board[$from]) || !$this->board[$from]) &&
+            (!isset($this->board[$to]) || !$this->board[$to])
+        ) {
+            $slide = false;
+        } else {
+            $slide =
+                min(
+                    $this->len($this->board[$common[0]]),
+                    $this->len($this->board[$common[1]])
+                ) <= max(
+                    $this->len($this->board[$from]),
+                    $this->len($this->board[$to])
+                );
+        }
 
-    return $slide;
+        return $slide;
+    }
 }

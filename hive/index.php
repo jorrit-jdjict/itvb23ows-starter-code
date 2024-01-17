@@ -5,7 +5,11 @@ session_start(); // Data store for session
 // Include the GameDatabase class
 require_once './app/database.php';
 
-include_once './app/util.php';
+// Include the GameBoard class
+require_once './app/util.php';
+$gameBoard = new GameBoard();
+$gameBoard->setPlayer(0);
+
 require_once './vendor/autoload.php';
 
 // When board is not set in session, restart the game
@@ -33,7 +37,7 @@ $hand = $_SESSION['hand'];
 $to = [];
 
 // Generate possible move destinations based on predefined offsets.
-foreach ($GLOBALS['OFFSETS'] as $pq) {
+foreach ($gameBoard->getOffsets() as $pq) {
     foreach (array_keys($board) as $pos) {
         $pq2 = explode(',', $pos);
         $to[] = ($pq[0] + $pq2[0]) . ',' . ($pq[1] + $pq2[1]);
