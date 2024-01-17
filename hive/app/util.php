@@ -65,7 +65,11 @@ function slide($board, $from, $to)
         }
     }
 
-    if (!$board[$common[0]] && !$board[$common[1]] && !$board[$from] && !$board[$to]) {
+    if ((!isset($board[$common[0]]) || !$board[$common[0]]) &&
+        (!isset($board[$common[1]]) || !$board[$common[1]]) &&
+        (!isset($board[$from]) || !$board[$from]) &&
+        (!isset($board[$to]) || !$board[$to])
+    ) {
         $slide = false;
     } else {
         $slide =
