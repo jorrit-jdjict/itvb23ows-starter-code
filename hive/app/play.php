@@ -26,9 +26,16 @@ if (!$hand[$piece]) {
     $_SESSION['hand'][$player][$piece]--;
     $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
     $db = include_once './database.php'; // Include the database connection.
-    $stmt = $db->prepare('insert into moves (game_id, type, move_from, move_to, previous_id, state) 
-    values (?, "play", ?, ?, ?, ?)');
-    $stmt->bind_param('issis', $_SESSION['game_id'], $piece, $to, $_SESSION['last_move'], getState());
+
+    // Store the values in separate variables before binding.
+    $game_id = $_SESSION['game_id'];
+    $move_from = $piece;
+    $move_to = $to;
+    $last_move = $_SESSION['last_move'];
+    $state = getState();
+
+    $stmt = $db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) VALUES (?, "play", ?, ?, ?, ?)');
+    $stmt->bind_param('issis', $game_id, $move_from, $move_to, $last_move, $state);
     $stmt->execute();
     $_SESSION['last_move'] = $db->insert_id; // Store the last move ID in the session.
 }
