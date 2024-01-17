@@ -2,11 +2,11 @@
 session_start(); // Start a session to manage game data.
 
 include_once './util.php'; // Include utility functions.
+
 // Include the GameDatabase class
 require_once './database.php';
-
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
+$db = $gameDatabase->getDatabaseConnection();
 
 $piece = $_POST['piece']; // Get the selected piece from the submitted form.
 $to = $_POST['to']; // Get the destination position from the submitted form.

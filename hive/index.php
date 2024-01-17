@@ -15,11 +15,13 @@ if (!isset($_SESSION['board'])) {
 }
 
 // Create an instance of the GameDatabase class
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
 
 // Get the database connection
 $db = $gameDatabase->getDatabaseConnection();
+
+
+
 
 
 // Sessions for board, player and hand, acting as a storage.

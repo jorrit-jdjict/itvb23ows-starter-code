@@ -1,12 +1,10 @@
 <?php
 session_start(); // Start a session to manage game data.
+
 // Include the GameDatabase class
 require_once './database.php';
-
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
-
-$db = $gameDatabase->getDatabaseConnection(); // Get the database connection.
+$db = $gameDatabase->getDatabaseConnection();
 
 $lastMoveID = $_SESSION['last_move'];
 

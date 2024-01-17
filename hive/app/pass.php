@@ -3,13 +3,8 @@
 session_start(); // Start a session to store game data.
 
 // Include the GameDatabase class
-// Include the GameDatabase class
 require_once './database.php';
-
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
-
-// Get the database connection
 $db = $gameDatabase->getDatabaseConnection();
 
 // Prepare a database query to record a "pass" move in the moves table.

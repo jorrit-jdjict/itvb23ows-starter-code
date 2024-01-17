@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start a session to manage game data.
+
 // Include the GameDatabase class
 require_once './database.php';
-
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
+$db = $gameDatabase->getDatabaseConnection();
 
 // Initialize an empty game board in the session.
 $_SESSION['board'] = [];

@@ -3,11 +3,12 @@
 session_start(); // Start a session to store game data.
 
 include_once './util.php';
+
 // Include the GameDatabase class
 require_once './database.php';
-
-// Initialize the GameDatabase instance
 $gameDatabase = GameDatabase::getInstance();
+$db = $gameDatabase->getDatabaseConnection();
+
 
 $from = $_POST['from']; // Get the 'from' position from the submitted form.
 $to = $_POST['to']; // Get the 'to' position from the submitted form.
@@ -16,10 +17,6 @@ $player = $_SESSION['player']; // Get the current player from the session.
 $board = $_SESSION['board']; // Get the game board from the session.
 $hand = $_SESSION['hand'][$player]; // Get the player's hand from the session.
 unset($_SESSION['error']); // Clear any previous error messages from the session.
-
-
-// Get the database connection
-$db = $gameDatabase->getDatabaseConnection();
 
 if (!isset($board[$from])) {
     $_SESSION['error'] = 'Board position is empty';
@@ -86,7 +83,7 @@ if (!isset($board[$from])) {
             $board[$to] = [$tile];
         }
         $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
-        $db = include_once './database.php'; // Include the database connection.
+
         $stmt = $db->prepare('insert into moves (game_id, type, move_from, move_to, previous_id, state) 
         values (?, "move", ?, ?, ?, ?)');
 
