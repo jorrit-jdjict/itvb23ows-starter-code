@@ -25,16 +25,23 @@ if ($lastMoveID != 0) {
         $stmt->execute(); // Execute the database query.
 
         $previousMoveId = $stmt->get_result()->fetch_array();
-        var_dump($previousMoveId);
 
         $_SESSION['last_move'] = $previousMoveId;
 
         // Restore the previous game state from the retrieved state in the database.
         setState($result[6]);
-
-        // set last move to session
     }
 } else {
+    $_SESSION['board'] = []; // Initialize an empty game board in the session.
+    $_SESSION['hand'] = [
+        0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], // Initialize player 0's hand with tile counts.
+        1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]  // Initialize player 1's hand with tile counts.
+    ];
+    $_SESSION['player'] = 0; // Set the current player to player 0.
+
+    $db->prepare('INSERT INTO games VALUES ()')->execute(); // Insert a new game record into the database.
+    $_SESSION['game_id'] = $db->insert_id; // Store the game ID in the session.
+
 }
 
 header('Location: ../index.php'); // Redirect to the main game page.
