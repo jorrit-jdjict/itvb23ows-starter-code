@@ -26,17 +26,5 @@ pipeline {
                 }
             }
         }
-        
-        // stage('Build Docker Image') {
-        //     when {
-        //         expression {
-        //             currentBuild.resultIsBetterOrEqualTo('SUCCESS')
-        //         }
-        //     }
-        //     steps {
-        //         // Voer hier de stappen uit om een Docker-image te bouwen
-        //         sh 'docker build -t hive-final:latest .'
-        //     }
-        // }
     }
 }
