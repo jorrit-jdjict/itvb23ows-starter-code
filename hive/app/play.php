@@ -39,7 +39,9 @@ if (!$hand[$piece]) {
     $game_id = $_SESSION['game_id'];
     $move_from = $piece;
     $move_to = $to;
-    $last_move = $_SESSION['last_move'];
+    if (isset($_SESSION['last_move'])) {
+        $last_move = $_SESSION['last_move'];
+    }
     $state = $gameDatabase->serializeGameState();
 
     $stmt = $db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) VALUES (?, "play", ?, ?, ?, ?)');
