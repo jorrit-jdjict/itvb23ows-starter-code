@@ -2,6 +2,9 @@
 
 session_start(); // Data store for session
 
+// Include the GameDatabase class
+require_once './app/database.php';
+
 include_once './app/util.php';
 require_once './vendor/autoload.php';
 
@@ -10,6 +13,16 @@ if (!isset($_SESSION['board'])) {
     header('Location: app/restart.php');
     exit(0);
 }
+
+// Create an instance of the GameDatabase class
+$gameDatabase = GameDatabase::getInstance();
+
+// Get the database connection
+$db = $gameDatabase->getDatabaseConnection();
+
+
+
+
 
 // Sessions for board, player and hand, acting as a storage.
 $board = $_SESSION['board'];
@@ -205,8 +218,16 @@ if (!count($to)) {
     <ol>
         <?php
         // DB connection
-        $db = include_once 'app/database.php';
-        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']); // Prepare a database query.
+        // Get the database connection using the GameDatabase instance
+        $db = $gameDatabase->getDatabaseConnection();
+
+        // Prepare a database query using the connection
+        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ?');
+
+        // Bind the game_id parameter
+        $stmt->bind_param('i', $_SESSION['game_id']);
+
+        // Execute the database query
         $stmt->execute();
         $result = $stmt->get_result(); // Get the query result.
 

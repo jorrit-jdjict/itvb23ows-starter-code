@@ -4,6 +4,12 @@ session_start(); // Start a session to store game data.
 
 include_once './util.php';
 
+// Include the GameDatabase class
+require_once './database.php';
+$gameDatabase = GameDatabase::getInstance();
+$db = $gameDatabase->getDatabaseConnection();
+
+
 $from = $_POST['from']; // Get the 'from' position from the submitted form.
 $to = $_POST['to']; // Get the 'to' position from the submitted form.
 
@@ -77,12 +83,12 @@ if (!isset($board[$from])) {
             $board[$to] = [$tile];
         }
         $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
-        $db = include_once './database.php'; // Include the database connection.
+
         $stmt = $db->prepare('insert into moves (game_id, type, move_from, move_to, previous_id, state) 
         values (?, "move", ?, ?, ?, ?)');
 
         // Bind parameters for the database query and execute the query.
-        $stmt->bind_param('issis', $_SESSION['game_id'], $from, $to, $_SESSION['last_move'], getState());
+        $stmt->bind_param('issis', $_SESSION['game_id'], $from, $to, $_SESSION['last_move'], $gameDatabase->serializeGameState());
         $stmt->execute();
         $_SESSION['last_move'] = $db->insert_id; // Store the last move ID in the session.
     }
