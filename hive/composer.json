@@ -13,5 +13,7 @@
       "email": "jorrit@jdjict.nl"
     }
   ],
-  "require": {}
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  }
 }
