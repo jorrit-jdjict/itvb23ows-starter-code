@@ -2,12 +2,12 @@
 
 session_start(); // Data store for session
 
-include_once './app/util.php';
+include_once './src/util.php';
 require_once './vendor/autoload.php';
 
 // When board is not set in session, restart the game
 if (!isset($_SESSION['board'])) {
-    header('Location: app/restart.php');
+    header('Location: src/restart.php');
     exit(0);
 }
 
@@ -156,7 +156,7 @@ if (!count($to)) {
                     echo "Black";
                 } ?>
     </div>
-    <form method="post" action="app/play.php">
+    <form method="post" action="src/play.php">
         <select name="piece">
             <?php
             foreach ($hand[$player] as $tile => $ct) {
@@ -175,7 +175,7 @@ if (!count($to)) {
         </select>
         <input type="submit" value="Play">
     </form>
-    <form method="post" action="app/move.php">
+    <form method="post" action="src/move.php">
         <select name="from">
             <?php
             foreach (array_keys($board) as $pos) {
@@ -192,10 +192,10 @@ if (!count($to)) {
         </select>
         <input type="submit" value="Move">
     </form>
-    <form method="post" action="app/pass.php">
+    <form method="post" action="src/pass.php">
         <input type="submit" value="Pass">
     </form>
-    <form method="post" action="app/restart.php">
+    <form method="post" action="src/restart.php">
         <input type="submit" value="Restart">
     </form>
     <strong><?php if (isset($_SESSION['error'])) {
@@ -205,7 +205,7 @@ if (!count($to)) {
     <ol>
         <?php
         // DB connection
-        $db = include_once 'app/database.php';
+        $db = include_once 'src/database.php';
         $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ' . $_SESSION['game_id']); // Prepare a database query.
         $stmt->execute();
         $result = $stmt->get_result(); // Get the query result.
@@ -216,7 +216,7 @@ if (!count($to)) {
         }
         ?>
     </ol>
-    <form method="post" action="app/undo.php">
+    <form method="post" action="src/undo.php">
         <input type="submit" value="Undo">
     </form>
 </body>
