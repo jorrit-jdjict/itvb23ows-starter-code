@@ -6,7 +6,7 @@ session_start(); // Data store for session
 use controllers\databaseController;
 use controllers\moveController;
 use controllers\passController;
-use controllers\playController;
+use controllers\movesController;
 use controllers\restartController;
 use controllers\undoController;
 
@@ -44,16 +44,18 @@ $actions = [
 foreach ($actions as $action => $controllerClass) {
     if (isset($_POST[$action])) {
         if ($action == 'move') {
-            $controller = new moveController($_POST['from'], $_POST['to'], $game->getBoard(), $database);
+            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller->move($_POST['from'], $_POST['to']);
         } elseif ($action == 'pass') {
-            $controller = new passController($database);
+            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller->pass();
         } elseif ($action == 'play') {
-            $controller = new playController($game->getBoard(), $_POST['piece'], $_POST['to'],  $database);
+            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller->play($_POST['piece'], $_POST['to']);
         } elseif ($action == 'undo') {
-            $controller = new undoController($database, $game);
+            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller->undo();
         }
-
-        $controller->$action();
 
         header('location: index.php');
         exit;

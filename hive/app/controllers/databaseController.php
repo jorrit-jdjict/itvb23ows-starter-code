@@ -31,11 +31,6 @@ class databaseController
         return self::$instance;
     }
 
-    // public function getDatabaseConnection()
-    // {
-    //     return $this->db;
-    // }
-
     public function serializeGameState()
     {
         return serialize([$_SESSION['hand'], $_SESSION['board'], $_SESSION['player']]);
@@ -112,56 +107,4 @@ class databaseController
         $stmt->execute();
         return $this->db->insert_id;
     }
-
-
-    // // All possibles moves
-    // public function movePass($gameID, $previousMove)
-    // {
-    //     $gameState = $this->serializeGameState();
-    //     $stmt = $this->db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) 
-    //     VALUES (?, "pass", null, null, ?, ?)');
-    //     $stmt->bind_param('iss', $gameID, $previousMove, $gameState);
-    //     $stmt->execute();
-    //     return $this->db->insert_id;
-    // }
-
-    // public function moveMove($gameID, $from, $to, $previousMove)
-    // {
-    //     $gameState = $this->serializeGameState();
-    //     $stmt = $this->db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) 
-    //     VALUES (?, "move", ?, ?, ?, ?)');
-    //     $stmt->bind_param('issis', $gameID, $from, $to, $previousMove, $gameState);
-    //     $stmt->execute();
-    //     return $this->db->insert_id;
-    // }
-
-    // public function movePlay($gameID, $piece, $to, $previousMove)
-    // {
-    //     $gameState = $this->serializeGameState();
-    //     $stmt = $this->db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) 
-    //     VALUES (?, "play", ?, ?, ?, ?)');
-    //     $stmt->bind_param('issis', $gameID, $piece, $to, $previousMove, $gameState);
-    //     $stmt->execute();
-    //     return $this->db->insert_id;
-    // }
-
-    // public function moveUndo($previousMove)
-    // {
-    //     $stmt = $this->db->prepare('SELECT * FROM moves WHERE id = ' . $previousMove);
-    //     $stmt->execute();
-    //     return $stmt->get_result()->fetch_array();
-    // }
-
-    // public function deleteMove($moveID)
-    // {
-    //     $stmt = $this->db->prepare('DELETE FROM moves WHERE id = ' . $moveID);
-    //     $stmt->execute();
-    // }
-
-    // public function gameRestart()
-    // {
-    //     $this->db->prepare('INSERT INTO games VALUES ()')->execute();
-    //     $_SESSION['game_id'] = $this->db->insert_id;
-    //     return $this->db->insert_id;
-    // }
 }
