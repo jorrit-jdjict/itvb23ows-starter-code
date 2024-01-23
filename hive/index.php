@@ -2,6 +2,8 @@
 
 session_start(); // Data store for session
 
+
+
 // Include the databaseController class
 use controllers\databaseController;
 use controllers\moveController;
@@ -61,6 +63,14 @@ foreach ($actions as $action => $controllerClass) {
         exit;
     }
 }
+
+function debug_to_console()
+{
+
+    echo "<script>console.log('Debug Objects: " . json_encode($_SESSION) . "' );</script>";
+}
+
+debug_to_console();
 
 ?>
 <!DOCTYPE html>

@@ -32,22 +32,18 @@ class playerComponent
         $this->playerID = $playerID;
     }
 
-    public function playerSwitch()
-    {
-        $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
-    }
-
     // Get all available stones in hand
+    // TODO deze geeft nu 2 handen terug, moet maar 1 zijn, van de player die aangeroepen wordt
     public function getStonesInHand()
     {
         $tiles = [];
 
         foreach ($this->hand[$this->playerID] as $tile => $ct) {
-
             if ($ct > 0) {
                 $tiles[] = $tile;
             }
         }
+        // var_dump($$this->hand[$this->playerID]);
 
         return $tiles;
     }

@@ -55,17 +55,19 @@ class boardComponent
     }
 
     // Function to check if a position on the board has a neighboring position.
-    function hasNeighBour($to)
+    public function hasNeighBour($to)
     {
+        $hasNeigbour = false;
         foreach (array_keys($this->board) as $b) {
             if ($this->isNeighbour($to, $b)) {
-                return true;
+                $hasNeigbour = true;
             }
         }
+        return $hasNeigbour;
     }
 
     // Function to check if two positions are neighbors on the game board.
-    function isNeighbour($a, $b)
+    public function isNeighbour($a, $b)
     {
         $a = explode(',', $a);
         $b = explode(',', $b);
@@ -78,16 +80,16 @@ class boardComponent
     }
 
     // Function to check if neighboring tiles are of the same color.
-    function neighboursAreSameColor($player, $to)
+    public function neighboursAreSameColorAsPlayer($player, $to)
     {
         $sameColor = true;
 
-        foreach ($this->board as $b => $st) {
-            if (!$st) {
+        foreach ($this->board as $tilePos => $stone) {
+            if (!$stone) {
                 continue;
             }
-            $c = $st[count($st) - 1][0];
-            if ($c != $player && $this->isNeighbour($to, $b)) {
+            $c = $stone[count($stone) - 1][0];
+            if ($c != $player && $this->isNeighbour($to, $tilePos)) {
                 $sameColor = false;
             }
         }
@@ -96,50 +98,8 @@ class boardComponent
     }
 
     // Function to calculate the length (number of tiles) in a position on the board.
-    function len($tile)
+    public function len($tile)
     {
         return $tile ? count($tile) : 0;
-    }
-
-    // Function to check if a tile can slide from one position to another on the board.
-    function slide($from, $to)
-    {
-        $slide = true;
-
-        if (!$this->hasNeighBour($to) || !$this->isNeighbour($from, $to)) {
-            $slide = false;
-        }
-
-        $b = explode(',', $to);
-        $common = [];
-
-        // Check for common neighboring positions between 'from' and 'to'.
-        foreach ($this->getOffset() as $pq) {
-            $p = $b[0] + $pq[0];
-            $q = $b[1] + $pq[1];
-            if ($this->isNeighbour($from, $p . "," . $q)) {
-                $common[] = $p . "," . $q;
-            }
-        }
-
-        // Check if the slide is possible based on neighboring tiles.
-        if ((!isset($this->board[$common[0]]) || !$this->board[$common[0]]) &&
-            (!isset($this->board[$common[1]]) || !$this->board[$common[1]]) &&
-            (!isset($this->board[$from]) || !$this->board[$from]) &&
-            (!isset($this->board[$to]) || !$this->board[$to])
-        ) {
-            $slide = false;
-        } else {
-            $slide =
-                min(
-                    $this->len($this->board[$common[0]]),
-                    $this->len($this->board[$common[1]])
-                ) <= max(
-                    $this->len($this->board[$from]),
-                    $this->len($this->board[$to])
-                );
-        }
-
-        return $slide;
     }
 }

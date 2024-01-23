@@ -5,6 +5,7 @@ namespace controllers;
 use components\boardComponent;
 use components\playerComponent;
 use controllers\databaseController;
+use controllers\rulesController;
 use components\gameComponent;
 
 class movesController
@@ -12,6 +13,7 @@ class movesController
     private databaseController $db;
     private boardComponent $board;
     private playerComponent $playerComponent;
+    private rulesController $rulesController;
     private gameComponent $game;
     private $from;
     private $to;
@@ -78,12 +80,14 @@ class movesController
                         $_SESSION['error'] = 'Tile must move';
                     } elseif (isset($board[$this->to]) && $tile[1] != "B") {
                         $_SESSION['error'] = 'Tile not empty';
-                    } elseif ($tile[1] == "Q" || $tile[1] == "B") {
-                        if (!$this->board->slide($this->from, $this->to)) {
-                            $_SESSION['error'] = 'Tile must slide';
-                        } else {
-                            $_SESSION['error'] = null;
-                        }
+                    } elseif ((($tile[1] == "Q" || $tile[1] == "B") && !$this->rulesController->slide($from, $to)) ||
+                        ($tile[1] == "A" && !$this->rulesController->antSlide($from, $to)) ||
+                        ($tile[1] == "S" && !$this->rulesController->spiderSlide($from, $to)) ||
+                        ($tile[1] == "G" && !$this->rulesController->grasshopperSlide($from, $to))
+                    ) {
+                        $_SESSION['error'] = 'Illegal move';
+                    } else {
+                        $_SESSION['error'] = null;
                     }
                 }
             }
@@ -103,7 +107,7 @@ class movesController
 
                 $this->playerComponent->playerSwitch();
 
-                unset($thisBoard[$this->from]);
+                unset($board[$this->from]);
 
                 $args = [
                     'type' => 'move',
@@ -154,9 +158,9 @@ class movesController
             $_SESSION['error'] = "Player does not have tile";
         } elseif (isset($board[$this->to])) {
             $_SESSION['error'] = 'Board position is not empty';
-        } elseif (count($board) && !$this->board->hasNeighBour($this->to)) {
+        } elseif ($board !== null && count($board) && !$this->board->hasNeighBour($this->to)) {
             $_SESSION['error'] = "board position has no neighbor";
-        } elseif (array_sum($this->hand) < 11 && !$this->board->neighboursAreSameColor($this->player, $this->to)) {
+        } elseif (array_sum($this->hand) < 11 && !$this->board->neighboursAreSameColorAsPlayer($this->player, $this->to)) {
             $_SESSION['error'] = "Board position has opposing neighbor";
         } elseif ($this->piece != 'Q' && array_sum($this->hand) <= 8 && $this->hand['Q']) {
             $_SESSION['error'] = 'Must play queen bee';
@@ -222,7 +226,7 @@ class movesController
             $_SESSION['last_move'] = $result[5];
             $this->db->unserializeGameState($result[6]);
 
-            $this->game->getPlayer()->playerSwitch();
+            $_SESSION['player'] = 1 - $_SESSION['player'];
         }
     }
 }
