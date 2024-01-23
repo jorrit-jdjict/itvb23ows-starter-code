@@ -3,10 +3,10 @@ session_start(); // Start a session to manage game data.
 
 include_once './util.php'; // Include utility functions.
 
-// Include the GameDatabase class
+// Include the databaseController class
 require_once './database.php';
-$gameDatabase = GameDatabase::getInstance();
-$db = $gameDatabase->getDatabaseConnection();
+$databaseController = databaseController::getInstance();
+$db = $databaseController->getDatabaseConnection();
 
 $piece = $_POST['piece']; // Get the selected piece from the submitted form.
 $to = $_POST['to']; // Get the destination position from the submitted form.
@@ -33,7 +33,7 @@ if (!$hand[$piece]) {
     $_SESSION['player'] = 1 - $_SESSION['player']; // Switch to the next player's turn.
 
     // Get the database connection
-    $db = $gameDatabase->getDatabaseConnection();
+    $db = $databaseController->getDatabaseConnection();
 
     // Store the values in separate variables before binding.
     $game_id = $_SESSION['game_id'];
@@ -42,7 +42,7 @@ if (!$hand[$piece]) {
     if (isset($_SESSION['last_move'])) {
         $last_move = $_SESSION['last_move'];
     }
-    $state = $gameDatabase->serializeGameState();
+    $state = $databaseController->serializeGameState();
 
     $stmt = $db->prepare('INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) VALUES (?, "play", ?, ?, ?, ?)');
     $stmt->bind_param('issis', $game_id, $move_from, $move_to, $last_move, $state);
