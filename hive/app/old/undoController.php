@@ -37,7 +37,7 @@ class undoController
             $_SESSION['last_move'] = $result[5];
             $this->db->unserializeGameState($result[6]);
 
-            $this->game->getPlayer()->playerSwitch();
+            $_SESSION['player'] = 1 - $_SESSION['player'];
         }
     }
 }

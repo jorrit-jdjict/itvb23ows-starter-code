@@ -105,7 +105,7 @@ class movesController
                     $board[$this->to] = [$tile];
                 }
 
-                $this->playerComponent->playerSwitch();
+                $_SESSION['player'] = 1 - $_SESSION['player'];
 
                 unset($board[$this->from]);
 
@@ -140,7 +140,7 @@ class movesController
 
         if ($lastMove !== false) {
             $_SESSION['last_move'] = $lastMove;
-            $this->playerComponent->playerSwitch();
+            $_SESSION['player'] = 1 - $_SESSION['player'];
         }
     }
 
