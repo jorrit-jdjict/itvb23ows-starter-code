@@ -14,6 +14,7 @@ use controllers\undoController;
 use components\boardComponent;
 use components\gameComponent;
 use components\playerComponent;
+use controllers\rulesController;
 
 use function PHPUnit\Framework\throwException;
 
@@ -33,6 +34,7 @@ $board = new boardComponent($_SESSION['board']);
 $hand = $_SESSION['hand'];
 $player = new playerComponent($_SESSION['player'], $hand);
 $game = new gameComponent($board, $player, $_SESSION['game_id']);
+$rules = new rulesController($board);
 
 $actions = [
     'move' => 'moveController',
@@ -44,16 +46,16 @@ $actions = [
 foreach ($actions as $action => $controllerClass) {
     if (isset($_POST[$action])) {
         if ($action == 'move') {
-            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller = new movesController($database, $game->getBoard(), $player, $game, $rules);
             $controller->move($_POST['from'], $_POST['to']);
         } elseif ($action == 'pass') {
-            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller = new movesController($database, $game->getBoard(), $player, $game, $rules);
             $controller->pass();
         } elseif ($action == 'play') {
-            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller = new movesController($database, $game->getBoard(), $player, $game, $rules);
             $controller->play($_POST['piece'], $_POST['to']);
         } elseif ($action == 'undo') {
-            $controller = new movesController($database, $game->getBoard(), $player, $game);
+            $controller = new movesController($database, $game->getBoard(), $player, $game, $rules);
             $controller->undo();
         }
 
@@ -61,6 +63,13 @@ foreach ($actions as $action => $controllerClass) {
         exit;
     }
 }
+
+function debug_to_console()
+{
+    echo "<script>console.log('Debug Objects: " . json_encode($_SESSION) . "' );</script>";
+}
+
+debug_to_console();
 
 ?>
 <!DOCTYPE html>

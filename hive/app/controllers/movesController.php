@@ -5,6 +5,7 @@ namespace controllers;
 use components\boardComponent;
 use components\playerComponent;
 use controllers\databaseController;
+use controllers\rulesController;
 use components\gameComponent;
 
 class movesController
@@ -12,6 +13,7 @@ class movesController
     private databaseController $db;
     private boardComponent $board;
     private playerComponent $playerComponent;
+    private rulesController $rulesController;
     private gameComponent $game;
     private $from;
     private $to;
@@ -19,12 +21,13 @@ class movesController
     private $hand;
     private $piece;
 
-    public function __construct(databaseController $db, boardComponent $board, playerComponent $playerComponent, gameComponent $game)
+    public function __construct(databaseController $db, boardComponent $board, playerComponent $playerComponent, gameComponent $game, rulesController $rulesController)
     {
         $this->db = $db;
         $this->board = $board;
         $this->playerComponent = $playerComponent;
         $this->game = $game;
+        $this->rulesController = $rulesController;
     }
 
     public function move($from, $to)
