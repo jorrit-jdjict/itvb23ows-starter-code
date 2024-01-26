@@ -100,46 +100,4 @@ class boardComponent
     {
         return $tile ? count($tile) : 0;
     }
-
-    // Function to check if a tile can slide from one position to another on the board.
-    // function slide($from, $to, $board)
-    // {
-    // $slide = true;
-
-    // if (!$this->hasNeighBour($to) || !$this->isNeighbour($from, $to)) {
-    //     $slide = false;
-    // }
-
-    // $b = explode(',', $to);
-    // $common = [];
-
-    // // Check for common neighboring positions between 'from' and 'to'.
-    // foreach ($this->getOffset() as $pq) {
-    //     $p = $b[0] + $pq[0];
-    //     $q = $b[1] + $pq[1];
-    //     if ($this->isNeighbour($from, $p . "," . $q)) {
-    //         $common[] = $p . "," . $q;
-    //     }
-    // }
-
-    // // Check if the slide is possible based on neighboring tiles.
-    // if ((!isset($board[$common[0]]) || !$board[$common[0]]) &&
-    //     (!isset($board[$common[1]]) || !$board[$common[1]]) &&
-    //     (!isset($board[$from]) || !$board[$from]) &&
-    //     (!isset($board[$to]) || !$board[$to])
-    // ) {
-    //     $slide = false;
-    // } else {
-    //     $slide =
-    //         min(
-    //             $this->len($this->board[$common[0]]),
-    //             $this->len($this->board[$common[1]])
-    //         ) <= max(
-    //             $this->len($this->board[$from]),
-    //             $this->len($this->board[$to])
-    //         );
-    // }
-
-    // return $slide;
-    // }
 }
