@@ -1,18 +1,18 @@
 <?php
 session_start(); // Start a session to manage game data.
 
-// Include the GameDatabase class
+// Include the databaseController class
 require_once './database.php';
-$gameDatabase = GameDatabase::getInstance();
-$db = $gameDatabase->getDatabaseConnection();
+$databaseController = databaseController::getInstance();
+$db = $databaseController->getDatabaseConnection();
 
 $lastMoveID = $_SESSION['last_move'];
 
 if ($lastMoveID != 0) {
-    // Prepare a database query to retrieve the last move's information based on the current game and last move ID.
-    $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ? ');
-    $stmt->bind_param('i', $_SESSION['game_id']);
-    $stmt->execute(); // Execute the database query.
+    // // Prepare a database query to retrieve the last move's information based on the current game and last move ID.
+    // $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = ? ');
+    // $stmt->bind_param('i', $_SESSION['game_id']);
+    // $stmt->execute(); // Execute the database query.
 
     $result = $stmt->get_result()->fetch_array(); // Get the result of the query and fetch it as an array.
 
@@ -30,7 +30,7 @@ if ($lastMoveID != 0) {
         $_SESSION['last_move'] = $previousMoveId;
 
         // Restore the previous game state from the retrieved state in the database.
-        $gameDatabase->unserializeGameState($result[6]);
+        $databaseController->unserializeGameState($result[6]);
     }
 } else {
     $_SESSION['board'] = []; // Initialize an empty game board in the session.

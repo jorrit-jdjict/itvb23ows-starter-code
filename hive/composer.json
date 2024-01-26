@@ -4,7 +4,8 @@
   "type": "project",
   "autoload": {
     "psr-4": {
-      "Hive\\": "src/"
+      "controllers\\": "./app/controllers",
+      "components\\": "./app/components"
     }
   },
   "authors": [
