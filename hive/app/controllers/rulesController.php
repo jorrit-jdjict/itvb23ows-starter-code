@@ -14,7 +14,7 @@ class rulesController
     }
 
     // Function to check if a tile can slide from one position to another on the board.
-    public function slide($from, $to)
+    public function slide($from, $to, $board)
     {
 
         $slide = true;
@@ -23,7 +23,7 @@ class rulesController
             $slide = false;
         }
 
-        if (!$this->boardComponent->hasNeighBour($to) || !$this->boardComponent->isNeighbour($from, $to)) {
+        if (!$this->boardComponent->hasNeighBour($to, $board) || !$this->boardComponent->isNeighbour($from, $to)) {
             $slide = false;
         }
 
@@ -42,10 +42,10 @@ class rulesController
         // var_dump($this->boardComponent->getBoard());
 
         // Check if the slide is possible based on neighboring tiles.
-        if ((!isset($this->boardComponent->getBoard()[$common[0]]) || !$this->boardComponent->getBoard()[$common[0]]) &&
-            (!isset($this->boardComponent->getBoard()[$common[1]]) || !$this->boardComponent->getBoard()[$common[1]]) &&
-            (!isset($this->boardComponent->getBoard()[$from]) || !$this->boardComponent->getBoard()[$from]) &&
-            (!isset($this->boardComponent->getBoard()[$to]) || !$this->boardComponent->getBoard()[$to])
+        if ((!isset($board[$common[0]]) || !$board[$common[0]]) &&
+            (!isset($board[$common[1]]) || !$board[$common[1]]) &&
+            (!isset($board[$from]) || !$board[$from]) &&
+            (!isset($board[$to]) || !$board[$to])
         ) {
             $slide = false;
         } else {

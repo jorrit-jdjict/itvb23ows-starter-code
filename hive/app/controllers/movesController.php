@@ -52,7 +52,7 @@ class movesController
         } else {
             $tile = array_pop($board[$this->from]);
 
-            if (!$this->board->hasNeighBour($this->to)) {
+            if (!$this->board->hasNeighBour($this->to, $board)) {
                 $_SESSION['error'] = "Move would split hive";
             } else {
                 $all = array_keys($board);
@@ -82,7 +82,7 @@ class movesController
                     } elseif (isset($board[$this->to]) && $tile[1] != "B") {
                         $_SESSION['error'] = 'Tile not empty';
                     } elseif ($tile[1] == "Q" || $tile[1] == "B") {
-                        if (!$this->board->slide($this->from, $this->to)) {
+                        if (!$this->rulesController->slide($this->from, $this->to, $this->board->getBoard())) {
                             $_SESSION['error'] = 'Tile must slide';
                         } else {
                             $_SESSION['error'] = null;
@@ -106,7 +106,7 @@ class movesController
 
                 $this->playerComponent->playerSwitch();
 
-                unset($thisBoard[$this->from]);
+                unset($board[$this->from]);
 
                 $args = [
                     'type' => 'move',
@@ -157,7 +157,7 @@ class movesController
             $_SESSION['error'] = "Player does not have tile";
         } elseif (isset($board[$this->to])) {
             $_SESSION['error'] = 'Board position is not empty';
-        } elseif (count($board) && !$this->board->hasNeighBour($this->to)) {
+        } elseif (count($board) && !$this->board->hasNeighBour($this->to, $board)) {
             $_SESSION['error'] = "board position has no neighbor";
         } elseif (array_sum($this->hand) < 11 && !$this->board->neighboursAreSameColor($this->player, $this->to)) {
             $_SESSION['error'] = "Board position has opposing neighbor";
