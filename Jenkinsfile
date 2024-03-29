@@ -21,7 +21,7 @@ pipeline {
         stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonarscanner'; // Controleer of 'sonarscanner' in Jenkins is geconfigureerd
-                projectName = 'itvb23ows-starter-code'
+                projectName = 'Hive'
             }
             steps {
                 // Voer de SonarQube-scanner uit
