@@ -16,12 +16,12 @@ class rulesController
     // Function to check if a tile can slide from one position to another on the board.
     public function slide($from, $to, $board)
     {
-
         $slide = true;
 
         if (isset($_SESSION['hand'][$_SESSION['player']]['Q']) && $_SESSION['hand'][$_SESSION['player']]['Q']) {
             $slide = false;
         }
+
 
         if (!$this->boardComponent->hasNeighBour($to, $board) || !$this->boardComponent->isNeighbour($from, $to)) {
             $slide = false;

@@ -8,6 +8,14 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('PHPUnit Test') {
+            steps {
+                sh 'composer install';
+                // Run PHPUnit tests
+                sh 'phpunit --configuration ./hive/phpunit.xml';
+            }
+        }
         
         stage('SonarQube Analysis') {
             environment {
