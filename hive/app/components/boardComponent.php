@@ -51,7 +51,15 @@ class boardComponent
             $to[] = '0,0'; // If no move destinations are available, set a default.
         }
 
-        return $to;
+        $allPossible = [];
+
+        foreach ($to as $position) {
+            if (!isset($this->board[$position])) {
+                $allPossible[] = $position;
+            }
+        }
+
+        return $allPossible;
     }
 
     // Function to check if a position on the board has a neighboring position.

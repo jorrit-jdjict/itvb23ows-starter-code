@@ -132,6 +132,8 @@ debug_to_console();
         }
         ?>
     </div>
+
+    <!-- HANDS -->
     <div class="hand">
         White:
         <?php
@@ -152,6 +154,8 @@ debug_to_console();
         }
         ?>
     </div>
+
+    <!-- TURN -->
     <div class="turn">
         Turn: <?php if ($game->getPlayer()->getPlayerID() == 0) {
                     echo "White";
@@ -159,6 +163,8 @@ debug_to_console();
                     echo "Black";
                 } ?>
     </div>
+
+    <!-- Place -->
     <form method="post">
         <select name="piece">
             <?php
@@ -169,13 +175,15 @@ debug_to_console();
         </select>
         <select name="to">
             <?php
-            foreach ($game->getBoard()->getAllPossiblePositions() as $pos) {
+            foreach ($game->getBoard()->getAllPossiblePositions($game->getBoard(), $game->getPlayer()->getStonesInHand(), $game->getPlayer()) as $pos) {
                 echo "<option value=\"$pos\">$pos</option>";
             }
             ?>
         </select>
         <input type="submit" name="play" value="Play">
     </form>
+
+    <!-- Move -->
     <form method="post">
         <select name="from">
             <?php
@@ -186,19 +194,25 @@ debug_to_console();
         </select>
         <select name="to">
             <?php
-            foreach ($game->getBoard()->getAllPossiblePositions() as $pos) {
+            foreach ($game->getBoard()->getAllPossiblePositions($game->getBoard(), $game->getPlayer()->getStonesInHand(), $game->getPlayer()) as $pos) {
                 echo "<option value=\"$pos\">$pos</option>";
             }
             ?>
         </select>
         <input type="submit" name="move" value="Move">
     </form>
+
+    <!-- Pass -->
     <form method="post">
         <input type="submit" name="pass" value="Pass">
     </form>
+
+    <!-- Restart -->
     <form method="post">
         <input type="submit" name="restart" value="Restart">
     </form>
+
+    <!-- Errors -->
     <strong>
         <?php if (isset($_SESSION['error'])) { ?>
             <div id="error-container"><?php echo ($_SESSION['error']); ?></div>

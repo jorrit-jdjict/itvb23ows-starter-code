@@ -199,25 +199,25 @@ class rulesController
         $toExploded = explode(',', $to);
 
         // Get direction to move in to reach $to
-        if ($fromExploded[1] == $toExploded[1]) {           // -- On same horizontal axis --
-            if ($fromExploded[0] > $toExploded[0]) {        // R -> L
+        if ($fromExploded[1] == $toExploded[1]) {
+            if ($fromExploded[0] > $toExploded[0]) {
                 $offset = [-1, 0];
-            } else {                                        // L -> R
+            } else {
                 $offset = [1, 0];
             }
-        } elseif ($fromExploded[0] == $toExploded[0]) {     // -- On same TL - BR diagonal axis --
-            if ($fromExploded[1] > $toExploded[1]) {        // BR -> TL
+        } elseif ($fromExploded[0] == $toExploded[0]) {
+            if ($fromExploded[1] > $toExploded[1]) {
                 $offset = [0, -1];
-            } else {                                        // TL -> BR
+            } else {
                 $offset = [0, 1];
             }
-        } elseif (                                          // -- On same TR - BL diagonal axis --
+        } elseif (
             $fromExploded[1] == $toExploded[1] -
             ($fromExploded[0] - $toExploded[0])
         ) {
-            if ($fromExploded[0] > $toExploded[0]) {        // TR -> BL
+            if ($fromExploded[0] > $toExploded[0]) {
                 $offset = [-1, 1];
-            } else {                                        // BL -> TR
+            } else {
                 $offset = [1, -1];
             }
         } else {
