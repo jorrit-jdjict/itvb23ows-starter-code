@@ -51,6 +51,13 @@ services:
     ports:
       - "9000:9000"
 
+  ai:
+    build: ./ai/
+    networks:
+      - hive
+    ports:
+      - "9001:9000"
+
 volumes:
   mysql_data:
 
