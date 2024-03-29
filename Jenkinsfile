@@ -11,11 +11,9 @@ pipeline {
 
         stage('PHPUnit Test') {
             steps {
-                // Install dependencies and set up environment if needed
-                // For example, you might need to run composer install to install PHPUnit
-                
+                sh 'composer install';
                 // Run PHPUnit tests
-                sh 'phpunit --configuration ./hive/phpunit.xml'
+                sh 'phpunit --configuration ./hive/phpunit.xml';
             }
         }
         
