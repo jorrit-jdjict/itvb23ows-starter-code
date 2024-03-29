@@ -9,11 +9,12 @@ pipeline {
             }
         }
 
-        stage('PHPUnit Test') {
+        stage('Test') {
             steps {
-                sh 'composer install';
-                // Run PHPUnit tests
-                sh 'phpunit --configuration ./hive/phpunit.xml';
+                dir("hive") {
+                    sh 'composer update'
+                    sh 'php vendor/bin/phpunit tests'
+                }
             }
         }
         

@@ -28,8 +28,7 @@ services:
       - hive
 
   jenkins:
-    build:
-      context: ./jenkins/
+    build: ./jenkins/
     depends_on:
       - sonarqube
     environment:
