@@ -55,6 +55,7 @@ class playerComponent
     // Get all stones of player which are on the board
     public function getStonesOfPlayerOnBoard($board)
     {
+
         $tiles = [];
 
         foreach ($board as $tile => $pos) {

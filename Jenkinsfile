@@ -8,6 +8,16 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('PHPUnit Test') {
+            steps {
+                // Install dependencies and set up environment if needed
+                // For example, you might need to run composer install to install PHPUnit
+                
+                // Run PHPUnit tests
+                sh 'phpunit --configuration ./hive/phpunit.xml'
+            }
+        }
         
         stage('SonarQube Analysis') {
             environment {
