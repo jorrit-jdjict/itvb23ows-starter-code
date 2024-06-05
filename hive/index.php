@@ -30,7 +30,10 @@ if (array_key_exists('restart', $_POST) || $_SESSION['board'] == null) {
 }
 
 // Sessions for board, player and hand, acting as a storage.
-$board = new boardComponent($_SESSION['board']);
+if (isset($_SESSION['board'])) {
+    $board = new boardComponent($_SESSION['board']);
+}
+
 $hand = $_SESSION['hand'];
 $player = new playerComponent($_SESSION['player'], $hand);
 $game = new gameComponent($board, $player, $_SESSION['game_id']);
