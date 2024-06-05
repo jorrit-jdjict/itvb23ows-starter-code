@@ -13,12 +13,18 @@ div.board div.tile {
 
 div.tile {
   display: inline-block;
-  width: 4em;
-  height: 4em;
-  border: 1px solid black;
+  width: 70px;
+  height: 60.9px;
   box-sizing: border-box;
   font-size: 50%;
-  padding: 2px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+div.tile__pos {
 }
 
 div.tile span {
@@ -30,16 +36,26 @@ div.tile span {
 
 div.player0 {
   color: black;
-  background: white;
+  background: url(/app/assets/img/hexagon_player_1.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 div.player1 {
   color: white;
-  background: black;
+  background: url(/app/assets/img/hexagon_player_2.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 div.stacked {
   border-width: 3px;
   border-color: red;
   padding: 0;
+}
+
+.hand {
+  display: flex;
 }

@@ -42,6 +42,8 @@ class RulesControllerTest extends TestCase
     public function testGrasshopperSlide()
     {
         // Arrange
+        $from = "0,0";
+        $to = "";
 
         // Act
         $result = $this->rulesController->testGrasshopperSlide($from, $to);
