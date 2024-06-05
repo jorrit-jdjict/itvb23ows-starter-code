@@ -113,7 +113,7 @@ debug_to_console();
             }
         }
 
-        // Generate HTML code for displaying the game board.
+        // // Generate HTML code for displaying the game board.
         foreach (array_filter($game->getBoard()->getBoard()) as $pos => $tile) {
             $pq = explode(',', $pos);
             $pq[0];
@@ -126,10 +126,10 @@ debug_to_console();
                 echo ' stacked';
             }
             echo '" style="left: ';
-            echo ($pq[0] - $min_p) * 4 + ($pq[1] - $min_q) * 2;
-            echo 'em; top: ';
-            echo ($pq[1] - $min_q) * 4;
-            echo "em;\">($pq[0],$pq[1])<span>";
+            echo (($pq[0] - $min_p) * 60 +  ($pq[1] - $min_q) * 50);
+            echo 'px; top: ';
+            echo (($pq[1] - $min_q)) * 30;
+            echo "px;\">($pq[0],$pq[1])<span>";
             echo $tile[$h - 1][1];
             echo '</span></div>';
         }
@@ -215,12 +215,6 @@ debug_to_console();
         <input type="submit" name="restart" value="Restart">
     </form>
 
-    <!-- Errors -->
-    <strong>
-        <?php if (isset($_SESSION['error'])) { ?>
-            <div id="error-container"><?php echo ($_SESSION['error']); ?></div>
-        <?php  } ?>
-    </strong>
     <ol>
         <?php
         $result = $database->getPreviousMoves($_SESSION['game_id']);
@@ -234,6 +228,17 @@ debug_to_console();
     <form method="post">
         <input type="submit" name="undo" value="Undo">
     </form>
+
+    <!-- Errors -->
+    <strong>
+        <?php if (isset($_SESSION['error'])) { ?>
+            <div id="error-container"><?php echo ($_SESSION['error']); ?></div>
+        <?php  } ?>
+
+        <pre>
+            <?php var_dump($board); ?>
+        </pre>
+    </strong>
 </body>
 
 </html>

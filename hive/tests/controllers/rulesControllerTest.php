@@ -38,4 +38,17 @@ class RulesControllerTest extends TestCase
         // Assert
         $this->assertTrue($result);
     }
+
+    public function testGrasshopperSlide()
+    {
+        // Arrange
+        $from = "0,0";
+        $to = "";
+
+        // Act
+        $result = $this->rulesController->testGrasshopperSlide($from, $to);
+
+        // Assert
+        $this->assertTrue($result);
+    }
 }
