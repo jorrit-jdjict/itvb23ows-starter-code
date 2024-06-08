@@ -174,7 +174,7 @@ class movesController
                 'piece' => $this->piece,
                 'gameID' => $_SESSION['game_id'],
                 'to' => $this->to,
-                'previousMove' => $_SESSION['last_move'],
+                'previousMove' => isset($_SESSION['last_move']),
             ];
 
             $lastMove = $this->db->makeMove($args);
