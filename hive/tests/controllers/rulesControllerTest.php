@@ -39,16 +39,50 @@ class RulesControllerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testGrasshopperSlide()
+    public function testGrasshopperSlideStraightlines()
     {
         // Arrange
-        $from = "0,0";
-        $to = "";
+        // Direction BottomRight slide
+        $fromBottomRight = "0,0";
+        $toBottomRight = "0,4";
+        // Direction Bottom slide
+        $fromBottom = "0,0";
+        $toBottom = "4,4";
+        // Direction BottomLeft slide
+        $fromBottomLeft = "0,0";
+        $toBottomLeft = "4,0";
+        // Direction TopLeft slide
+        $fromTopLeft = "0,4";
+        $toTopLeft = "0,1";
+        // Direction Top slide
+        $fromTop = "4,4";
+        $toTop = "0,0";
+        // Direction TopRight slide
+        $fromTopRight = "4,0";
+        $toTopRight = "0,0";
+
 
         // Act
-        $result = $this->rulesController->testGrasshopperSlide($from, $to);
+        // Direction BottomRight slide
+        $resultBottomRight = $this->rulesController->GrasshopperSlide($fromBottomRight, $toBottomRight);
+        // Direction Bottom slide
+        $resultBottom = $this->rulesController->GrasshopperSlide($fromBottom, $toBottom);
+        // Direction BottomLeft slide
+        $resultBottomLeft = $this->rulesController->GrasshopperSlide($fromBottomLeft, $toBottomLeft);
+        // Direction TopLeft slide
+        $resultTopLeft = $this->rulesController->GrasshopperSlide($fromTopLeft, $toTopLeft);
+        // Direction Top slide
+        $resultTop = $this->rulesController->GrasshopperSlide($fromTop, $toTop);
+        // Direction TopRight slide
+        $resultTopRight = $this->rulesController->GrasshopperSlide($fromTopRight, $toTopRight);
+
 
         // Assert
-        $this->assertTrue($result);
+        $this->assertTrue($resultBottomRight);
+        $this->assertTrue($resultBottom);
+        $this->assertTrue($resultBottomLeft);
+        $this->assertTrue($resultTopLeft);
+        $this->assertTrue($resultTop);
+        $this->assertTrue($resultTopRight);
     }
 }
