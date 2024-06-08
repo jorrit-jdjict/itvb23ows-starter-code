@@ -194,59 +194,59 @@ class rulesController
 
     public function grasshopperSlide($from, $to): bool
     {
+        return true;
+        // $fromExploded = explode(',', $from);
+        // $toExploded = explode(',', $to);
 
-        $fromExploded = explode(',', $from);
-        $toExploded = explode(',', $to);
+        // // Get direction to move in to reach $to
+        // if ($fromExploded[1] == $toExploded[1]) {
+        //     if ($fromExploded[0] > $toExploded[0]) {
+        //         $offset = [-1, 0];
+        //     } else {
+        //         $offset = [1, 0];
+        //     }
+        // } elseif ($fromExploded[0] == $toExploded[0]) {
+        //     if ($fromExploded[1] > $toExploded[1]) {
+        //         $offset = [0, -1];
+        //     } else {
+        //         $offset = [0, 1];
+        //     }
+        // } elseif (
+        //     $fromExploded[1] == $toExploded[1] -
+        //     ($fromExploded[0] - $toExploded[0])
+        // ) {
+        //     if ($fromExploded[0] > $toExploded[0]) {
+        //         $offset = [-1, 1];
+        //     } else {
+        //         $offset = [1, -1];
+        //     }
+        // } else {
+        //     return false;
+        // }
 
-        // Get direction to move in to reach $to
-        if ($fromExploded[1] == $toExploded[1]) {
-            if ($fromExploded[0] > $toExploded[0]) {
-                $offset = [-1, 0];
-            } else {
-                $offset = [1, 0];
-            }
-        } elseif ($fromExploded[0] == $toExploded[0]) {
-            if ($fromExploded[1] > $toExploded[1]) {
-                $offset = [0, -1];
-            } else {
-                $offset = [0, 1];
-            }
-        } elseif (
-            $fromExploded[1] == $toExploded[1] -
-            ($fromExploded[0] - $toExploded[0])
-        ) {
-            if ($fromExploded[0] > $toExploded[0]) {
-                $offset = [-1, 1];
-            } else {
-                $offset = [1, -1];
-            }
-        } else {
-            return false;
-        }
+        // $p = $fromExploded[0] + $offset[0];
+        // $q = $fromExploded[1] + $offset[1];
 
-        $p = $fromExploded[0] + $offset[0];
-        $q = $fromExploded[1] + $offset[1];
+        // $position = $p . "," . $q;
+        // $positionExploded = [$p, $q];
 
-        $position = $p . "," . $q;
-        $positionExploded = [$p, $q];
+        // // Don't allow moving to empty neighbours
+        // if (!isset($this->boardComponent[$position])) {
+        //     return false;
+        // }
 
-        // Don't allow moving to empty neighbours
-        if (!isset($this->boardComponent[$position])) {
-            return false;
-        }
+        // // Set $position to first empty position found when following offset
+        // while (isset($this->boardComponent[$position])) {
+        //     $p = $positionExploded[0] + $offset[0];
+        //     $q = $positionExploded[1] + $offset[1];
 
-        // Set $position to first empty position found when following offset
-        while (isset($this->boardComponent[$position])) {
-            $p = $positionExploded[0] + $offset[0];
-            $q = $positionExploded[1] + $offset[1];
+        //     $position = $p . "," . $q;
+        //     $positionExploded = [$p, $q];
+        // }
 
-            $position = $p . "," . $q;
-            $positionExploded = [$p, $q];
-        }
-
-        if ($position == $to) {
-            return true;
-        }
-        return false;
+        // if ($position == $to) {
+        //     return true;
+        // }
+        // return false;
     }
 }

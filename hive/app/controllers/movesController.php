@@ -81,6 +81,7 @@ class movesController
                         $_SESSION['error'] = 'Tile must move';
                     } elseif (isset($board[$this->to]) && $tile[1] != "B") {
                         $_SESSION['error'] = 'Tile not empty';
+                        // Add else if for all the other units
                     } elseif ($tile[1] == "Q" || $tile[1] == "B") {
                         if (!$this->rulesController->slide($this->from, $this->to, $this->board->getBoard())) {
                             $_SESSION['error'] = 'Tile must slide';
