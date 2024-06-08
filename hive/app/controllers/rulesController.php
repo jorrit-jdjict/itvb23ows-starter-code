@@ -192,7 +192,7 @@ class rulesController
         return false;
     }
 
-    public function grasshopperSlide($from, $to): bool
+    public function grasshopperSlide($from, $to, $board): bool
     {
         if ($from == $to) {
             return false;

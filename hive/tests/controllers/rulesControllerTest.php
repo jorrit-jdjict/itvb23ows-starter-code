@@ -41,7 +41,21 @@ class RulesControllerTest extends TestCase
 
     public function testGrasshopperSlideStraightlines()
     {
+
         // Arrange
+        $board = [
+            "0,0" => [[0, "Q"]],
+            "-1,0" => [[1, "Q"]],
+            "0,1" => [[0, "B"]],
+            "-1,-1" => [[1, "B"]],
+            "1,1" => [[0, "B"]],
+            "-2,0" => [[1, "B"]],
+            "-2,-1" => [[0, "S"]],
+            "-2,1" => [[1, "S"]],
+            "0,2" => [[0, "G"]],
+            "-1,1" => [[1, "G"]]
+        ];
+
         // Direction BottomRight slide
         $fromBottomRight = "0,0";
         $toBottomRight = "0,4";
@@ -64,17 +78,17 @@ class RulesControllerTest extends TestCase
 
         // Act
         // Direction BottomRight slide
-        $resultBottomRight = $this->rulesController->GrasshopperSlide($fromBottomRight, $toBottomRight);
+        $resultBottomRight = $this->rulesController->GrasshopperSlide($fromBottomRight, $toBottomRight, $board);
         // Direction Bottom slide
-        $resultBottom = $this->rulesController->GrasshopperSlide($fromBottom, $toBottom);
+        $resultBottom = $this->rulesController->GrasshopperSlide($fromBottom, $toBottom, $board);
         // Direction BottomLeft slide
-        $resultBottomLeft = $this->rulesController->GrasshopperSlide($fromBottomLeft, $toBottomLeft);
+        $resultBottomLeft = $this->rulesController->GrasshopperSlide($fromBottomLeft, $toBottomLeft, $board);
         // Direction TopLeft slide
-        $resultTopLeft = $this->rulesController->GrasshopperSlide($fromTopLeft, $toTopLeft);
+        $resultTopLeft = $this->rulesController->GrasshopperSlide($fromTopLeft, $toTopLeft, $board);
         // Direction Top slide
-        $resultTop = $this->rulesController->GrasshopperSlide($fromTop, $toTop);
+        $resultTop = $this->rulesController->GrasshopperSlide($fromTop, $toTop, $board);
         // Direction TopRight slide
-        $resultTopRight = $this->rulesController->GrasshopperSlide($fromTopRight, $toTopRight);
+        $resultTopRight = $this->rulesController->GrasshopperSlide($fromTopRight, $toTopRight, $board);
 
 
         // Assert
@@ -89,6 +103,22 @@ class RulesControllerTest extends TestCase
     public function testGrasshopperSlideNonStraightlines()
     {
         // Arrange
+        $board = [
+            "0,0" => [[0, "Q"]],
+            "-1,0" => [[1, "Q"]],
+            "0,1" => [[0, "B"]],
+            "-1,-1" => [[
+                1, "B"
+            ]],
+            "1,1" => [[0, "B"]],
+            "-2,0" => [[1, "B"]],
+            "-2,-1" => [[
+                0, "S"
+            ]],
+            "-2,1" => [[1, "S"]],
+            "0,2" => [[0, "G"]],
+            "-1,1" => [[1, "G"]]
+        ];
         // These lines should not be allowed, since a grasshopper can only travel in a straight line
         $from1 = "0,0";
         $to1 = "2,4";
@@ -104,10 +134,10 @@ class RulesControllerTest extends TestCase
 
         // Act
         // Test the invalid moves
-        $result1 = $this->rulesController->GrasshopperSlide($from1, $to1);
-        $result2 = $this->rulesController->GrasshopperSlide($from2, $to2);
-        $result3 = $this->rulesController->GrasshopperSlide($from3, $to3);
-        $result4 = $this->rulesController->GrasshopperSlide($from4, $to4);
+        $result1 = $this->rulesController->GrasshopperSlide($from1, $to1, $board);
+        $result2 = $this->rulesController->GrasshopperSlide($from2, $to2, $board);
+        $result3 = $this->rulesController->GrasshopperSlide($from3, $to3, $board);
+        $result4 = $this->rulesController->GrasshopperSlide($from4, $to4, $board);
 
         // Assert
         // They should all be false, since they are invalid moves
@@ -120,116 +150,30 @@ class RulesControllerTest extends TestCase
     public function testGrasshopperSlideToSameTile()
     {
         // Arrange
-        $from = "0,0";
-        $to = '0,0';
+        $board = [
+            "0,0" => [[0, "Q"]],
+            "-1,0" => [[1, "Q"]],
+            "0,1" => [[0, "B"]],
+            "-1,-1" => [[
+                1, "B"
+            ]],
+            "1,1" => [[0, "B"]],
+            "-2,0" => [[1, "B"]],
+            "-2,-1" => [[
+                0, "S"
+            ]],
+            "-2,1" => [[1, "S"]],
+            "0,2" => [[0, "G"]],
+            "-1,1" => [[1, "G"]]
+        ];
+
+        $from = "0,2";
+        $to = '0,2';
 
         // Act
-        $result = $this->rulesController->GrasshopperSlide($from, $to);
+        $result = $this->rulesController->GrasshopperSlide($from, $to, $board);
 
         // Assert
         $this->assertFalse($result);
     }
 }
-
-// array(10) {
-//     ["0,0"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(0)
-//         [1]=>
-//         string(1) "Q"
-//       }
-//     }
-//     ["-1,0"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(1)
-//         [1]=>
-//         string(1) "Q"
-//       }
-//     }
-//     ["0,1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(0)
-//         [1]=>
-//         string(1) "B"
-//       }
-//     }
-//     ["-1,-1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(1)
-//         [1]=>
-//         string(1) "B"
-//       }
-//     }
-//     ["1,1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(0)
-//         [1]=>
-//         string(1) "B"
-//       }
-//     }
-//     ["-2,0"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(1)
-//         [1]=>
-//         string(1) "B"
-//       }
-//     }
-//     ["-2,-1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(0)
-//         [1]=>
-//         string(1) "S"
-//       }
-//     }
-//     ["-2,1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(1)
-//         [1]=>
-//         string(1) "S"
-//       }
-//     }
-//     ["0,2"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(0)
-//         [1]=>
-//         string(1) "G"
-//       }
-//     }
-//     ["-1,1"]=>
-//     array(1) {
-//       [0]=>
-//       array(2) {
-//         [0]=>
-//         int(1)
-//         [1]=>
-//         string(1) "G"
-//       }
-//     }
-//   }

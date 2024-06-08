@@ -83,7 +83,7 @@ class movesController
                         $_SESSION['error'] = 'Tile not empty';
                     } elseif ($tile[1] == "G") {
                         // If the moving tile is a grasshopper, check if slide is valid
-                        if (!$this->rulesController->grasshopperSlide($this->from, $this->to)) {
+                        if (!$this->rulesController->grasshopperSlide($this->from, $this->to, $this->board)) {
                             $_SESSION['error'] = 'Grasshopper should move in a straight line';
                         }
                     } elseif ($tile[1] == "Q" || $tile[1] == "B") {
