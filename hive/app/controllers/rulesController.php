@@ -194,59 +194,30 @@ class rulesController
 
     public function grasshopperSlide($from, $to): bool
     {
-        return true;
-        // $fromExploded = explode(',', $from);
-        // $toExploded = explode(',', $to);
+        $fromExploded = explode(',', $from);
+        $toExploded = explode(',', $to);
 
-        // // Get direction to move in to reach $to
-        // if ($fromExploded[1] == $toExploded[1]) {
-        //     if ($fromExploded[0] > $toExploded[0]) {
-        //         $offset = [-1, 0];
-        //     } else {
-        //         $offset = [1, 0];
-        //     }
-        // } elseif ($fromExploded[0] == $toExploded[0]) {
-        //     if ($fromExploded[1] > $toExploded[1]) {
-        //         $offset = [0, -1];
-        //     } else {
-        //         $offset = [0, 1];
-        //     }
-        // } elseif (
-        //     $fromExploded[1] == $toExploded[1] -
-        //     ($fromExploded[0] - $toExploded[0])
-        // ) {
-        //     if ($fromExploded[0] > $toExploded[0]) {
-        //         $offset = [-1, 1];
-        //     } else {
-        //         $offset = [1, -1];
-        //     }
-        // } else {
-        //     return false;
-        // }
+        $allowedAbsoluteDirections = [
+            [0, 1],
+            [1, 1],
+            [1, 0]
+        ];
 
-        // $p = $fromExploded[0] + $offset[0];
-        // $q = $fromExploded[1] + $offset[1];
+        $distanceP = $fromExploded[0] - $toExploded[0];
+        $distanceQ = $fromExploded[1] - $toExploded[1];
 
-        // $position = $p . "," . $q;
-        // $positionExploded = [$p, $q];
+        $absoluteMovement = [abs($distanceP), abs($distanceQ)];
 
-        // // Don't allow moving to empty neighbours
-        // if (!isset($this->boardComponent[$position])) {
-        //     return false;
-        // }
+        foreach ($allowedAbsoluteDirections as $direction) {
 
-        // // Set $position to first empty position found when following offset
-        // while (isset($this->boardComponent[$position])) {
-        //     $p = $positionExploded[0] + $offset[0];
-        //     $q = $positionExploded[1] + $offset[1];
+            if ($absoluteMovement[0] == 0 && $direction[1] > 0 && $absoluteMovement[1] % $direction[1] == 0) {
+                return true;
+            }
+            if ($absoluteMovement[1] == 0 && $direction[0] > 0 && $absoluteMovement[0] % $direction[0] == 0) {
+                return true;
+            }
+        }
 
-        //     $position = $p . "," . $q;
-        //     $positionExploded = [$p, $q];
-        // }
-
-        // if ($position == $to) {
-        //     return true;
-        // }
-        // return false;
+        return false;
     }
 }
