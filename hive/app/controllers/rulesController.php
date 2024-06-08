@@ -194,6 +194,10 @@ class rulesController
 
     public function grasshopperSlide($from, $to): bool
     {
+        if ($from == $to) {
+            return false;
+        }
+
         $fromExploded = explode(',', $from);
         $toExploded = explode(',', $to);
 
@@ -203,18 +207,29 @@ class rulesController
             [1, 0]
         ];
 
-        $distanceP = $fromExploded[0] - $toExploded[0];
-        $distanceQ = $fromExploded[1] - $toExploded[1];
+        $distanceP = $toExploded[0] - $fromExploded[0];
+        $distanceQ = $toExploded[1] - $fromExploded[1];
 
         $absoluteMovement = [abs($distanceP), abs($distanceQ)];
 
         foreach ($allowedAbsoluteDirections as $direction) {
-
-            if ($absoluteMovement[0] == 0 && $direction[1] > 0 && $absoluteMovement[1] % $direction[1] == 0) {
-                return true;
-            }
-            if ($absoluteMovement[1] == 0 && $direction[0] > 0 && $absoluteMovement[0] % $direction[0] == 0) {
-                return true;
+            if ($direction[0] == 0) {
+                // Basecase vertical movement
+                if ($absoluteMovement[0] == 0 && $absoluteMovement[1] % $direction[1] == 0) {
+                    return true;
+                }
+            } elseif ($direction[1] == 0) {
+                // Basecase horizontal movement
+                if ($absoluteMovement[1] == 0 && $absoluteMovement[0] % $direction[0] == 0) {
+                    return true;
+                }
+            } else {
+                // Diagonal movement
+                if ($absoluteMovement[0] % $direction[0] == 0 && $absoluteMovement[1] % $direction[1] == 0) {
+                    if ($absoluteMovement[0] / $direction[0] == $absoluteMovement[1] / $direction[1]) {
+                        return true;
+                    }
+                }
             }
         }
 
