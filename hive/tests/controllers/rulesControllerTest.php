@@ -85,4 +85,35 @@ class RulesControllerTest extends TestCase
         $this->assertTrue($resultTop);
         $this->assertTrue($resultTopRight);
     }
+
+    public function testGrasshopperSlideNonStraightlines()
+    {
+        // Arrange
+        // These lines should not be allowed, since a grasshopper can only travel in a straight line
+        $from1 = "0,0";
+        $to1 = "2,4";
+
+        $from2 = "0,0";
+        $to2 = "1,3";
+
+        $from3 = "0,0";
+        $to3 = "-4,2";
+
+        $from4 = "0,0";
+        $to4 = "2,3";
+
+        // Act
+        // Test the invalid moves
+        $result1 = $this->rulesController->GrasshopperSlide($from1, $to1);
+        $result2 = $this->rulesController->GrasshopperSlide($from2, $to2);
+        $result3 = $this->rulesController->GrasshopperSlide($from3, $to3);
+        $result4 = $this->rulesController->GrasshopperSlide($from4, $to4);
+
+        // Assert
+        // They should all be false, since they are invalid moves
+        $this->assertFalse($result1);
+        $this->assertFalse($result2);
+        $this->assertFalse($result3);
+        $this->assertFalse($result4);
+    }
 }
