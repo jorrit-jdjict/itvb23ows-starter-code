@@ -116,4 +116,120 @@ class RulesControllerTest extends TestCase
         $this->assertFalse($result3);
         $this->assertFalse($result4);
     }
+
+    public function testGrasshopperSlideToSameTile()
+    {
+        // Arrange
+        $from = "0,0";
+        $to = '0,0';
+
+        // Act
+        $result = $this->rulesController->GrasshopperSlide($from, $to);
+
+        // Assert
+        $this->assertFalse($result);
+    }
 }
+
+// array(10) {
+//     ["0,0"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(0)
+//         [1]=>
+//         string(1) "Q"
+//       }
+//     }
+//     ["-1,0"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(1)
+//         [1]=>
+//         string(1) "Q"
+//       }
+//     }
+//     ["0,1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(0)
+//         [1]=>
+//         string(1) "B"
+//       }
+//     }
+//     ["-1,-1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(1)
+//         [1]=>
+//         string(1) "B"
+//       }
+//     }
+//     ["1,1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(0)
+//         [1]=>
+//         string(1) "B"
+//       }
+//     }
+//     ["-2,0"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(1)
+//         [1]=>
+//         string(1) "B"
+//       }
+//     }
+//     ["-2,-1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(0)
+//         [1]=>
+//         string(1) "S"
+//       }
+//     }
+//     ["-2,1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(1)
+//         [1]=>
+//         string(1) "S"
+//       }
+//     }
+//     ["0,2"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(0)
+//         [1]=>
+//         string(1) "G"
+//       }
+//     }
+//     ["-1,1"]=>
+//     array(1) {
+//       [0]=>
+//       array(2) {
+//         [0]=>
+//         int(1)
+//         [1]=>
+//         string(1) "G"
+//       }
+//     }
+//   }
