@@ -78,17 +78,17 @@ class RulesControllerTest extends TestCase
 
         // Act
         // Direction BottomRight slide
-        $resultBottomRight = $this->rulesController->GrasshopperSlide($fromBottomRight, $toBottomRight, $board);
+        $resultBottomRight = $this->rulesController->GrasshopperSlideStraightLines($fromBottomRight, $toBottomRight);
         // Direction Bottom slide
-        $resultBottom = $this->rulesController->GrasshopperSlide($fromBottom, $toBottom, $board);
+        $resultBottom = $this->rulesController->GrasshopperSlideStraightLines($fromBottom, $toBottom);
         // Direction BottomLeft slide
-        $resultBottomLeft = $this->rulesController->GrasshopperSlide($fromBottomLeft, $toBottomLeft, $board);
+        $resultBottomLeft = $this->rulesController->GrasshopperSlideStraightLines($fromBottomLeft, $toBottomLeft);
         // Direction TopLeft slide
-        $resultTopLeft = $this->rulesController->GrasshopperSlide($fromTopLeft, $toTopLeft, $board);
+        $resultTopLeft = $this->rulesController->GrasshopperSlideStraightLines($fromTopLeft, $toTopLeft);
         // Direction Top slide
-        $resultTop = $this->rulesController->GrasshopperSlide($fromTop, $toTop, $board);
+        $resultTop = $this->rulesController->GrasshopperSlideStraightLines($fromTop, $toTop);
         // Direction TopRight slide
-        $resultTopRight = $this->rulesController->GrasshopperSlide($fromTopRight, $toTopRight, $board);
+        $resultTopRight = $this->rulesController->GrasshopperSlideStraightLines($fromTopRight, $toTopRight);
 
 
         // Assert
@@ -134,10 +134,10 @@ class RulesControllerTest extends TestCase
 
         // Act
         // Test the invalid moves
-        $result1 = $this->rulesController->GrasshopperSlide($from1, $to1, $board);
-        $result2 = $this->rulesController->GrasshopperSlide($from2, $to2, $board);
-        $result3 = $this->rulesController->GrasshopperSlide($from3, $to3, $board);
-        $result4 = $this->rulesController->GrasshopperSlide($from4, $to4, $board);
+        $result1 = $this->rulesController->GrasshopperSlideStraightLines($from1, $to1);
+        $result2 = $this->rulesController->GrasshopperSlide($from2, $to2);
+        $result3 = $this->rulesController->GrasshopperSlide($from3, $to3);
+        $result4 = $this->rulesController->GrasshopperSlide($from4, $to4);
 
         // Assert
         // They should all be false, since they are invalid moves
