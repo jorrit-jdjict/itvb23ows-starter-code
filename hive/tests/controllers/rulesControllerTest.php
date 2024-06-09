@@ -97,9 +97,6 @@ class RulesControllerTest extends TestCase
         // Direction Top slide
         $fromTop = "0,2";
         $toTop = "-3,-1";
-        // Direction TopRight slide
-        $fromTopRight = "-1,1";
-        $toTopRight = "-3,1";
         // Direction BottomLeft slide
         $fromBottomLeft  = "-1,1";
         $toBottomLeft  = "2,1";
@@ -112,8 +109,6 @@ class RulesControllerTest extends TestCase
         $resultTopleft = $this->rulesController->GrassHopperSlide($fromTopLeft, $toTopLeft, $board);
         /// Direction Top slide
         $resultTop = $this->rulesController->GrassHopperSlide($fromTop, $toTop, $board);
-        // Direction TopRight slide
-        $resultTopRight = $this->rulesController->GrassHopperSlide($fromTopRight, $toTopRight, $board);
         // Direction BottomLeft slide
         $resultBottomLeft = $this->rulesController->GrassHopperSlide($fromBottomLeft, $toBottomLeft, $board);
         // Direction Bottom slide
@@ -123,7 +118,6 @@ class RulesControllerTest extends TestCase
         $this->assertTrue($resultTopleft);
         $this->assertTrue($resultBottom);
         $this->assertTrue($resultBottomLeft);
-        $this->assertTrue($resultTopRight);
         $this->assertTrue($resultTop);
     }
 

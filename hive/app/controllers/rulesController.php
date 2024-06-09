@@ -195,6 +195,8 @@ class rulesController
     public function GrassHopperSlide($from, $to, $board): bool
     {
 
+        var_dump('nee?' . $from);
+
         // Feature request 1b
         // b. Een sprinkhaan mag zich niet verplaatsen naar het veld waar hij al staat.
         if ($from == $to) {
@@ -230,7 +232,30 @@ class rulesController
                     if ($absoluteMovement[1] > 1) {
                         // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
                         // velden tussen de start- en eindpositie bezet moeten zijn.
+                        // 0,1 > 0,4
+                        // var_dump($fromExploded[1], $toExploded[1]);
+                        if ($fromExploded[1] > $toExploded[1]) {
+                            // Positive distance
+                            // var_dump($distanceQ);
+                            for ($j = 0; $j < abs($distanceQ); $j++) {
+                                $Qstep = implode(',', [intval($toExploded[0]), intval($toExploded[1]) + $j]);
+                                if ($to != $Qstep && !isset($board[$Qstep])) {
+                                    return false;
+                                }
+                            }
+                        } else {
+                            // Negative distance
+                            for ($k = 0; $k > abs($distanceQ); $k++) {
+                                $Qstep = implode(',', [intval($toExploded[0]), intval($toExploded[1]) - $k]);
+                                if ($to != $Qstep && !isset($board[$Qstep])) {
+                                    return false;
+                                }
+                            }
+                        }
+
                         return true;
+
+
 
                         // if ($toExploded[1] + $fromExploded[1] < 0) {
                         //     // Negative distance
@@ -253,12 +278,36 @@ class rulesController
                     }
                 }
             } elseif ($direction[1] == 0) {
+                var_dump("help: " . $from);
                 // Basecase horizontal movement
                 if ($absoluteMovement[1] == 0 && $absoluteMovement[0] % $direction[0] == 0) {
                     // c. Een sprinkhaan moet over minimaal één steen springen.
                     if ($absoluteMovement[0] > 1) {
                         // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
                         // velden tussen de start- en eindpositie bezet moeten zijn. 
+                        if ($fromExploded[0] > $toExploded[0]) {
+                            // Positive distance
+                            // var_dump($distanceQ);
+                            for ($h = 0; $h < abs($distanceP); $h++) {
+                                $Pstep = implode(',', [intval($toExploded[0]) + $h, intval($toExploded[1])]);
+                                var_dump("a from: " . $from . " to: " . $to . ' pstep= ' . $Pstep . ' distancep: ' . abs($distanceP));
+                                var_dump($to != $Pstep && !isset($board[$Pstep]));
+                                if ($to != $Pstep && !isset($board[$Pstep])) {
+                                    var_dump('aaaaa');
+                                    return false;
+                                }
+                            }
+                        } else {
+                            // Negative distance
+                            for ($l = 0; $l > abs($distanceP); $l++) {
+                                $Pstep = implode(',', [intval($toExploded[0]) - $l, intval($toExploded[1])]);
+                                var_dump("b from: " . $from . " to: " . $to . ' pstep= ' . $Pstep);
+                                if ($to != $Pstep && !isset($board[$Pstep])) {
+                                    return false;
+                                }
+                            }
+                        }
+
                         return true;
                     }
                 }
