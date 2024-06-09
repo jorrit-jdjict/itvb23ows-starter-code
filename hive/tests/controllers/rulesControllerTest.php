@@ -300,4 +300,62 @@ class RulesControllerTest extends TestCase
     //     $this->assertFalse($result2);
     //     $this->assertFalse($result3);
     // }
+
+
+
+
+
+    // Soldier ant
+    public function testSoldierAntValidSlide()
+    {
+        // a. Een soldatenmier verplaatst zich door een onbeperkt aantal keren te
+        // verschuiven
+        // b. Een verschuiving is een zet zoals de bijenkoningin die mag maken.
+        // c. Een soldatenmier mag zich niet verplaatsen naar het veld waar hij al staat. 
+
+        // Arrange
+        $board = [
+            "0,0" => [[0, "Q"]],
+            "-1,0" => [[1, "Q"]],
+            "0,1" => [[0, "B"]],
+            "-1,-1" => [[
+                1, "B"
+            ]],
+            "1,1" => [[0, "B"]],
+            "-2,0" => [[1, "B"]],
+            "-2,-1" => [[
+                0, "S"
+            ]],
+            "-2,1" => [[1, "S"]],
+            "0,2" => [[0, "G"]],
+            "-1,1" => [[1, "G"]]
+        ];
+
+        // These lines should not be allowed, since a grasshopper is not allowed to jump on a filled tile
+        // Cant move to the same tile
+        $from1 = "-2,1";
+        $to1 = "-2,1";
+
+        // Cant move to tile which is occupied
+        $from2 = "-2,1";
+        $to2 = "0,2";
+
+        // Can move like queen bee
+        $from3 = "-2,1";
+        $to3 = "-3,-1";
+
+        // Act
+        // Test the invalid moves
+        $result1 = $this->rulesController->antSoldierSlide($from1, $to1, $board);
+        $result2 = $this->rulesController->antSoldierSlide($from2, $to2, $board);
+        $result3 = $this->rulesController->antSoldierSlide($from3, $to3, $board);
+
+        // Assert
+        // They should all be false, since they are invalid moves
+        $this->assertFalse($result1);
+        $this->assertFalse($result2);
+
+        // these should be true, because they are valid moves
+        $this->assertTrue($result3);
+    }
 }
