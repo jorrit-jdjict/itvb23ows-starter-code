@@ -340,14 +340,22 @@ class RulesControllerTest extends TestCase
         $from2 = "-2,1";
         $to2 = "0,2";
 
+        // Can move like queen bee
+        $from3 = "-2,1";
+        $to3 = "-3,-1";
+
         // Act
         // Test the invalid moves
-        $result1 = $this->rulesController->GrassHopperSlide($from1, $to1, $board);
-        $result2 = $this->rulesController->GrassHopperSlide($from2, $to2, $board);
+        $result1 = $this->rulesController->antSoldierSlide($from1, $to1, $board);
+        $result2 = $this->rulesController->antSoldierSlide($from2, $to2, $board);
+        $result3 = $this->rulesController->antSoldierSlide($from3, $to3, $board);
 
         // Assert
         // They should all be false, since they are invalid moves
         $this->assertFalse($result1);
         $this->assertFalse($result2);
+
+        // these should be true, because they are valid moves
+        $this->assertTrue($result3);
     }
 }
