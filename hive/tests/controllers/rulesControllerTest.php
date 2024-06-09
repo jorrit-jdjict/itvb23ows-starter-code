@@ -201,7 +201,7 @@ class RulesControllerTest extends TestCase
         $to3 = "-1,2";
 
         $from4 = "0,2";
-        $to4 = "2,2";
+        $to4 = "1,1";
 
         // Act
         // Test the invalid moves
