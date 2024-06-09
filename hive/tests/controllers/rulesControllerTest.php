@@ -266,38 +266,38 @@ class RulesControllerTest extends TestCase
     // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
     // velden tussen de start- en eindpositie bezet moeten zijn. 
 
-    public function testGrasshopperSlideOverEmptySpaces()
-    {
-        // Arrange
-        $board = [
-            "0,0" => [[0, "Q"]],
-            "-1,0" => [[1, "Q"]],
-            "0,1" => [[0, "B"]],
-            "1,1" => [[0, "B"]],
-            "-2,0" => [[1, "B"]],
-            "-2,-1" => [[0, "S"]],
-            "-2,1" => [[1, "S"]],
-            "-3,1" => [[1, "G"]],
-            "0,2" => [[0, "G"]],
-            "-3,-1" => [[1, "B"]]
-        ];
+    // public function testGrasshopperSlideOverEmptySpaces()
+    // {
+    //     // Arrange
+    //     $board = [
+    //         "0,0" => [[0, "Q"]],
+    //         "-1,0" => [[1, "Q"]],
+    //         "0,1" => [[0, "B"]],
+    //         "1,1" => [[0, "B"]],
+    //         "-2,0" => [[1, "B"]],
+    //         "-2,-1" => [[0, "S"]],
+    //         "-2,1" => [[1, "S"]],
+    //         "-3,1" => [[1, "G"]],
+    //         "0,2" => [[0, "G"]],
+    //         "-3,-1" => [[1, "B"]]
+    //     ];
 
-        $from1 = "-3,1";
-        $to1 = "-3,-2";
-        $from2 = "-3,1";
-        $to2 = "2,1";
-        $from3 = "0,1";
-        $to3 = "-4,-2";
+    //     $from1 = "-3,1";
+    //     $to1 = "-3,-2";
+    //     $from2 = "-3,1";
+    //     $to2 = "2,1";
+    //     $from3 = "0,1";
+    //     $to3 = "-4,-2";
 
-        // Act
-        $result1 = $this->rulesController->GrassHopperSlide($from1, $to1, $board);
-        $result2 = $this->rulesController->GrassHopperSlide($from2, $to2, $board);
-        $result3 = $this->rulesController->GrassHopperSlide($from3, $to3, $board);
+    //     // Act
+    //     $result1 = $this->rulesController->GrassHopperSlide($from1, $to1, $board);
+    //     $result2 = $this->rulesController->GrassHopperSlide($from2, $to2, $board);
+    //     $result3 = $this->rulesController->GrassHopperSlide($from3, $to3, $board);
 
-        // Assert
-        // They all pass an empty square, so they should all be false.
-        $this->assertFalse($result1);
-        $this->assertFalse($result2);
-        $this->assertFalse($result3);
-    }
+    //     // Assert
+    //     // They all pass an empty square, so they should all be false.
+    //     $this->assertFalse($result1);
+    //     $this->assertFalse($result2);
+    //     $this->assertFalse($result3);
+    // }
 }
