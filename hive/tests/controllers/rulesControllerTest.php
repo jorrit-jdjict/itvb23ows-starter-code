@@ -40,6 +40,8 @@ class RulesControllerTest extends TestCase
         $this->assertTrue($result);
     }
 
+    // GRASSHOPPER
+
     // Feature Request 1B Een sprinkhaan mag zich niet verplaatsen naar het veld waar hij al staat.
     public function testGrasshopperSlideToSameTile()
     {
@@ -107,21 +109,21 @@ class RulesControllerTest extends TestCase
 
         // Act
         // Direction TopLeft slide
-        $resultBottomRight = $this->rulesController->GrassHopperSlide($fromTopLeft, $toTopLeft, $board);
+        $resultTopleft = $this->rulesController->GrassHopperSlide($fromTopLeft, $toTopLeft, $board);
         /// Direction Top slide
-        $resultBottom = $this->rulesController->GrassHopperSlide($fromTop, $toTop, $board);
+        $resultTop = $this->rulesController->GrassHopperSlide($fromTop, $toTop, $board);
         // Direction TopRight slide
-        $resultBottomLeft = $this->rulesController->GrassHopperSlide($fromTopRight, $toTopRight, $board);
+        $resultTopRight = $this->rulesController->GrassHopperSlide($fromTopRight, $toTopRight, $board);
         // Direction BottomLeft slide
-        $resultTopLeft = $this->rulesController->GrassHopperSlide($fromBottomLeft, $toBottomLeft, $board);
+        $resultBottomLeft = $this->rulesController->GrassHopperSlide($fromBottomLeft, $toBottomLeft, $board);
         // Direction Bottom slide
-        $resultTop = $this->rulesController->GrassHopperSlide($fromBottom, $toBottom, $board);
+        $resultBottom = $this->rulesController->GrassHopperSlide($fromBottom, $toBottom, $board);
 
         // Assert
-        $this->assertTrue($resultBottomRight);
+        $this->assertTrue($resultTopleft);
         $this->assertTrue($resultBottom);
         $this->assertTrue($resultBottomLeft);
-        $this->assertTrue($resultTopLeft);
+        $this->assertTrue($resultTopRight);
         $this->assertTrue($resultTop);
     }
 

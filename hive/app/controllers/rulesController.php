@@ -227,7 +227,6 @@ class rulesController
                 // Basecase vertical movement
                 if ($absoluteMovement[0] == 0 && $absoluteMovement[1] % $direction[1] == 0) {
                     // c. Een sprinkhaan moet over minimaal één steen springen.
-                    var_dump($absoluteMovement[1]);
                     if ($absoluteMovement[1] > 1) {
                         // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
                         // velden tussen de start- en eindpositie bezet moeten zijn.
