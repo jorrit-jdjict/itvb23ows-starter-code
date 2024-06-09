@@ -81,6 +81,11 @@ class movesController
                         $_SESSION['error'] = 'Tile must move';
                     } elseif (isset($board[$this->to]) && $tile[1] != "B") {
                         $_SESSION['error'] = 'Tile not empty';
+                    } elseif ($tile[1] == "G") {
+                        // If the moving tile is a grasshopper, check if slide is valid
+                        if (!$this->rulesController->grasshopperSlide($this->from, $this->to, $this->board)) {
+                            $_SESSION['error'] = 'Grasshopper should move in a straight line';
+                        }
                     } elseif ($tile[1] == "Q" || $tile[1] == "B") {
                         if (!$this->rulesController->slide($this->from, $this->to, $this->board->getBoard())) {
                             $_SESSION['error'] = 'Tile must slide';
@@ -174,7 +179,7 @@ class movesController
                 'piece' => $this->piece,
                 'gameID' => $_SESSION['game_id'],
                 'to' => $this->to,
-                'previousMove' => $_SESSION['last_move'],
+                'previousMove' => isset($_SESSION['last_move']),
             ];
 
             $lastMove = $this->db->makeMove($args);

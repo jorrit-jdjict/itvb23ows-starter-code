@@ -113,6 +113,27 @@ debug_to_console();
             }
         }
 
+        // // // Generate HTML code for displaying the game board.
+        // foreach (array_filter($game->getBoard()->getBoard()) as $pos => $tile) {
+        //     $pq = explode(',', $pos);
+        //     $pq[0];
+        //     $pq[1];
+        //     $h = count($tile);
+        //     // Generate HTML for each tile on the board.
+        //     echo '<div class="tile player';
+        //     echo $tile[$h - 1][0];
+        //     if ($h > 1) {
+        //         echo ' stacked';
+        //     }
+        //     echo '" style="left: ';
+        //     echo (($pq[0] - $min_p) * 60 +  ($pq[1] - $min_q) * 50);
+        //     echo 'px; top: ';
+        //     echo (($pq[1] - $min_q)) * 30;
+        //     echo "px;\">($pq[0],$pq[1])<span>";
+        //     echo $tile[$h - 1][1];
+        //     echo '</span></div>';
+        // }
+
         // // Generate HTML code for displaying the game board.
         foreach (array_filter($game->getBoard()->getBoard()) as $pos => $tile) {
             $pq = explode(',', $pos);
@@ -126,9 +147,9 @@ debug_to_console();
                 echo ' stacked';
             }
             echo '" style="left: ';
-            echo (($pq[0] - $min_p) * 60 +  ($pq[1] - $min_q) * 50);
+            echo ((($pq[1] - $pq[0]) * 50) + 60);
             echo 'px; top: ';
-            echo (($pq[1] - $min_q)) * 30;
+            echo ((($pq[1] - $min_q)) * 30) + ($pq[0] - $min_p) * 30;
             echo "px;\">($pq[0],$pq[1])<span>";
             echo $tile[$h - 1][1];
             echo '</span></div>';
