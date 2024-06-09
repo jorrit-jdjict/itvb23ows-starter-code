@@ -192,12 +192,22 @@ class rulesController
         return false;
     }
 
-    public function grasshopperSlide($from, $to, $board): bool
+    public function GrassHopperSlide($from, $to, $board): bool
     {
+
+        // Feature request 1b
+        // b. Een sprinkhaan mag zich niet verplaatsen naar het veld waar hij al staat.
         if ($from == $to) {
             return false;
         }
 
+        // d. Een sprinkhaan mag niet naar een bezet veld springen.
+        if (isset($board[$to])) {
+            return false;
+        }
+
+        // a. Een sprinkhaan verplaatst zich door in een rechte lijn een sprong te maken
+        // naar een veld meteen achter een andere steen in de richting van de sprong.
         $fromExploded = explode(',', $from);
         $toExploded = explode(',', $to);
 
@@ -216,18 +226,53 @@ class rulesController
             if ($direction[0] == 0) {
                 // Basecase vertical movement
                 if ($absoluteMovement[0] == 0 && $absoluteMovement[1] % $direction[1] == 0) {
-                    return true;
+                    // c. Een sprinkhaan moet over minimaal één steen springen.
+                    var_dump($absoluteMovement[1]);
+                    if ($absoluteMovement[1] > 1) {
+                        // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
+                        // velden tussen de start- en eindpositie bezet moeten zijn.
+                        return true;
+
+                        // if ($toExploded[1] + $fromExploded[1] < 0) {
+                        //     // Negative distance
+                        //     for ($j = 0; $j < $absoluteMovement[1]; $j) {
+                        //         $Qstep = implode(',', [intval($toExploded[0]), intval($toExploded[1]) - $j]);
+                        //         if (!isset($board[$Qstep])) {
+                        //             return false;
+                        //         }
+                        //     }
+                        // } else {
+                        //     // Positive distance
+                        //     for ($j = 0; $j < $absoluteMovement[1]; $j) {
+                        //         $Qstep = implode(',', [intval($toExploded[0]), intval($toExploded[1]) + $j]);
+                        //         if (!isset($board[$Qstep])) {
+
+                        //             return false;
+                        //         }
+                        //     }
+                        // }
+                    }
                 }
             } elseif ($direction[1] == 0) {
                 // Basecase horizontal movement
                 if ($absoluteMovement[1] == 0 && $absoluteMovement[0] % $direction[0] == 0) {
-                    return true;
+                    // c. Een sprinkhaan moet over minimaal één steen springen.
+                    if ($absoluteMovement[0] > 1) {
+                        // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
+                        // velden tussen de start- en eindpositie bezet moeten zijn. 
+                        return true;
+                    }
                 }
             } else {
                 // Diagonal movement
                 if ($absoluteMovement[0] % $direction[0] == 0 && $absoluteMovement[1] % $direction[1] == 0) {
                     if ($absoluteMovement[0] / $direction[0] == $absoluteMovement[1] / $direction[1]) {
-                        return true;
+                        // c. Een sprinkhaan moet over minimaal één steen springen.
+                        if ($absoluteMovement[0] > 1) {
+                            // e. Een sprinkhaan mag niet over lege velden springen. Dit betekent dat alle
+                            // velden tussen de start- en eindpositie bezet moeten zijn. 
+                            return true;
+                        }
                     }
                 }
             }
